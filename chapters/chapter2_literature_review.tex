@@ -1,0 +1,199 @@
+\chapter{TỔNG QUAN TÀI LIỆU}
+
+\section{Giới thiệu về phân cụm (Clustering)}
+
+Phân cụm là một kỹ thuật học máy không giám sát (unsupervised learning) \cite{bishop_ml} nhằm nhóm các đối tượng dữ liệu thành các cụm một cách sao cho:
+
+\begin{itemize}
+    \item Các đối tượng trong cùng một cụm có sự tương đồng cao nhất
+    \item Các đối tượng ở các cụm khác nhau khác nhau nhất
+\end{itemize}
+
+Phân cụm được ứng dụng rộng rãi trong:
+\begin{itemize}
+    \item Phân khúc thị trường (market segmentation)
+    \item Phát hiện cấu trúc dữ liệu
+    \item Nén dữ liệu (data compression)
+    \item Bộ lọc cộng tác (collaborative filtering)
+    \item Phát hiện bất thường (anomaly detection)
+\end{itemize}
+
+\section{Các phương pháp phân cụm chính}
+
+\subsection{Phân cụm dựa trên khoảng cách (Distance-based Clustering)}
+
+\textbf{K-means:}
+
+K-means \cite{kmeans_original} là một trong những thuật toán phân cụm phổ biến nhất. Phiên bản cải tiến K-means++ \cite{kmeans_plus_plus} giải quyết vấn đề khởi tạo ngẫu nhiên. Thuật toán hoạt động như sau:
+
+\begin{enumerate}
+    \item Chọn ngẫu nhiên K tâm cụm
+    \item Gán mỗi điểm dữ liệu tới tâm cụm gần nhất
+    \item Tính toán lại tâm cụm bằng trung bình các điểm trong cụm
+    \item Lặp lại bước 2-3 cho đến khi hội tụ
+\end{enumerate}
+
+Hàm mục tiêu của K-means được định nghĩa là:
+
+\begin{equation}
+J = \sum_{k=1}^{K} \sum_{x \in C_k} \|x - \mu_k\|^2
+\end{equation}
+
+Trong đó:
+\begin{itemize}
+    \item $C_k$ là cụm thứ $k$
+    \item $\mu_k$ là tâm của cụm thứ $k$
+    \item $K$ là số lượng cụm
+\end{itemize}
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Đơn giản, dễ hiểu và triển khai
+    \item Nhanh chóng với dữ liệu lớn
+    \item Dễ dàng kết hợp với bộ kỳ vọng-tối đa (EM)
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item Phải xác định trước số cụm K
+    \item Nhạy cảm với khởi tạo ban đầu
+    \item Có thể hội tụ tới cực tiểu cục bộ
+    \item Giả định các cụm có hình dạng gần như hình cầu
+\end{itemize}
+
+\subsection{Phân cụm phân cấp (Hierarchical Clustering)}
+
+Phân cụm phân cấp tạo ra một cây phân cấp (dendrogram) của các cụm. Có hai phương pháp chính:
+
+\begin{itemize}
+    \item \textbf{Agglomerative (Bottom-up):} Bắt đầu với mỗi điểm là một cụm và liên kết chúng lại
+    \item \textbf{Divisive (Top-down):} Bắt đầu với tất cả các điểm trong một cụm và chia chúng ra
+\end{itemize}
+
+Các phương pháp liên kết phổ biến:
+\begin{itemize}
+    \item \textbf{Single Linkage:} Khoảng cách nhỏ nhất giữa hai cụm
+    \item \textbf{Complete Linkage:} Khoảng cách lớn nhất giữa hai cụm
+    \item \textbf{Average Linkage:} Khoảng cách trung bình giữa hai cụm
+    \item \textbf{Ward Linkage:} Giảm thiểu phương sai \cite{hierarchical_clustering} (được sử dụng trong báo cáo này)
+\end{itemize}
+
+\subsection{Phân cụm dựa mật độ (Density-based Clustering)}
+
+\textbf{DBSCAN (Density-Based Spatial Clustering of Applications with Noise)}
+
+DBSCAN \cite{dbscan} nhóm các điểm dựa trên mật độ cục bộ. Các điểm được phân loại thành:
+\begin{itemize}
+    \item \textbf{Điểm lõi (Core points):} Có ít nhất MinPts điểm khác trong bán kính $\epsilon$
+    \item \textbf{Điểm biên (Border points):} Không phải điểm lõi nhưng là hàng xóm của điểm lõi
+    \item \textbf{Điểm nhiễu (Noise points):} Không phải điểm lõi cũng không phải điểm biên
+\end{itemize}
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Không cần xác định K trước
+    \item Phát hiện hình dạng cụm tùy ý
+    \item Phát hiện điểm bất thường một cách tự nhiên
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item Nhạy cảm với các tham số $\epsilon$ và MinPts
+    \item Khó xử lý dữ liệu có mật độ biến đổi
+    \item Chi phí tính toán $O(n^2)$ trong trường hợp xấu nhất (hoặc $O(n \log n)$ nếu dùng spatial indexing)
+\end{itemize}
+
+\section{Xác định số cụm tối ưu}
+
+\subsection{Phương pháp Elbow (Elbow Method)}
+
+Phương pháp Elbow dựa trên quan sát rằng:
+\begin{itemize}
+    \item Khi $K$ tăng, inertia (tổng bình phương khoảng cách) giảm
+    \item Có một điểm "gãy khúc" (elbow) nơi giảm chậm lại
+    \item Điểm này chỉ ra K tối ưu
+\end{itemize}
+
+Công thức inertia:
+\begin{equation}
+\text{Inertia} = \sum_{i=1}^{n} \|x_i - \mu_{c_i}\|^2
+\end{equation}
+
+\subsection{Chỉ số Silhouette (Silhouette Score)}
+
+Silhouette Score \cite{silhouette_score} đo lường mức độ tương tự của một điểm với cụm của nó so với các cụm khác. Các độ đo khác như Davies-Bouldin Index \cite{davies_bouldin} và Calinski-Harabasz Index \cite{calinski_harabasz} cũng được sử dụng để đánh giá chất lượng phân cụm \cite{clustering_evaluation}.
+
+\begin{equation}
+s(i) = \frac{b(i) - a(i)}{\max\{a(i), b(i)\}}
+\end{equation}
+
+Trong đó:
+\begin{itemize}
+    \item $a(i)$ = khoảng cách trung bình từ điểm $i$ tới các điểm khác trong cùng cụm
+    \item $b(i)$ = khoảng cách trung bình nhỏ nhất từ điểm $i$ tới các điểm trong các cụm khác
+    \item $s(i) \in [-1, 1]$: giá trị cao hơn tốt hơn
+\end{itemize}
+
+Silhouette Score trung bình từ 0.5 đến 1 chỉ ra phân cụm tốt.
+
+\section{Giảm chiều dữ liệu: Principal Component Analysis (PCA)}
+
+PCA \cite{pca_paper} là một kỹ thuật giảm chiều dữ liệu tuyến tính. Nó tìm các thành phần chính (principal components) có phương sai cao nhất.
+
+\begin{itemize}
+    \item \textbf{PC1:} Hướng có phương sai lớn nhất
+    \item \textbf{PC2:} Hướng trực giao với PC1 có phương sai lớn thứ hai
+\end{itemize}
+
+Công thức phương sai được giải thích:
+\begin{equation}
+\text{Variance Explained} = \frac{\lambda_i}{\sum_{j=1}^{m} \lambda_j}
+\end{equation}
+
+Trong đó $\lambda_i$ là eigenvalue thứ $i$.
+
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Giảm số chiều mà vẫn giữ lại phần lớn thông tin
+    \item Giúp trực quan hóa dữ liệu cao chiều
+    \item Giảm overfitting
+    \item Tăng tốc độ tính toán
+\end{itemize}
+
+\section{Phân cụm khách hàng trong ngành tài chính}
+
+Phân cụm khách hàng thẻ tín dụng \cite{customer_segmentation_review, financial_segmentation} là ứng dụng quan trọng để quản lý rủi ro \cite{credit_risk} và tối ưu hóa chiến lược kinh doanh. Phân cụm khách hàng thẻ tín dụng giúp:
+
+\begin{enumerate}
+    \item \textbf{Phát triển sản phẩm:} Tạo các sản phẩm phù hợp cho mỗi phân khúc
+    
+    \item \textbf{Giá định:} Đề xuất giá hoặc lãi suất khác nhau dựa trên phân khúc
+    
+    \item \textbf{Quản lý rủi ro:} Xác định nhóm rủi ro cao để kiểm soát tốt hơn
+    
+    \item \textbf{Tiếp thị được cá nhân hóa:} Tối ưu hóa các chiến dịch tiếp thị cho từng phân khúc
+    
+    \item \textbf{Tăng giữ chân:} Phát hiện khách hàng có nguy cơ rời bỏ cao và đề xuất các ưu đãi
+    
+    \item \textbf{Phát hiện gian lận:} Xác định hành vi bất thường có thể là gian lận
+\end{enumerate}
+
+\section{Trình trạng công nghệ hiện tại}
+
+Các công cụ phân tích phổ biến trong phân cụm dữ liệu:
+\begin{itemize}
+    \item \textbf{R:} Thư viện stats, tidyverse, cluster
+    \item \textbf{Python:} scikit-learn \cite{scikit_learn}, scipy, pandas, numpy
+    \item \textbf{SAS, SPSS:} Công cụ phân tích thương mại
+    \item \textbf{Tableau, Power BI:} Trực quan hóa và business intelligence
+    \item \textbf{Apache Spark MLlib:} Xử lý dữ liệu phân tán quy mô lớn
+\end{itemize}
+
+Trong báo cáo này, Python được lựa chọn sử dụng \cite{hands_on_ml} vì:
+\begin{itemize}
+    \item Cộng đồng lớn và hỗ trợ tốt
+    \item Thư viện mạnh mẽ cho khai phá dữ liệu (scikit-learn, pandas)
+    \item Mã nguồn mở và miễn phí
+    \item Dễ học và triển khai nhanh
+    \item Tích hợp tốt với Jupyter Notebook cho phân tích tương tác
+\end{itemize}

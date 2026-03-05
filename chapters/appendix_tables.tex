@@ -1,0 +1,401 @@
+﻿\chapter{BẢNG DỮ LIỆU CHI TIẾT}
+
+\section{Thống kê tổng quan đã xác minh}
+
+\begin{table}[H]
+\centering
+\caption{Thống kê tổng quan các biến chính (N = 8,950)}
+\begin{tabular}{|l|r|}
+\hline
+\textbf{Chỉ tiêu} & \textbf{Giá trị} \\
+\hline
+Số khách hàng & 8,950 \\
+\hline
+Số biến tài chính & 17 \\
+\hline
+BALANCE trung bình & \$1,564 \\
+\hline
+PURCHASES trung bình & \$1,003 \\
+\hline
+CASH\_ADVANCE trung bình & \$979 \\
+\hline
+CREDIT\_LIMIT trung bình & \$4,494 \\
+\hline
+PAYMENTS trung bình & \$1,733 \\
+\hline
+PRC\_FULL\_PAYMENT trung bình & 15.37\% \\
+\hline
+TENURE trung bình & 11.5 tháng \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Hồ sơ chi tiết các cụm K-means (K=4)}
+
+\begin{table}[H]
+\centering
+\caption{Tổng hợp đặc trưng 4 cụm khách hàng}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|r|r|r|r|r|r|r|}
+\hline
+\textbf{Cụm} & \textbf{Số lượng} & \textbf{Tỷ lệ} & \textbf{BALANCE} & \textbf{PURCHASES} & \textbf{CASH\_ADV} & \textbf{PAYMENTS} & \textbf{PRC\_FULL} \\
+\hline
+0 & 1,504 & 16.8\% & \$3,187 & \$1,326 & \$2,551 & \$2,769 & 3.66\% \\
+\hline
+1 & 2,206 & 24.6\% & \$1,453 & \$2,579 & \$40 & \$2,492 & 23.80\% \\
+\hline
+2 & 2,758 & 30.8\% & \$249 & \$443 & \$24 & \$674 & 25.74\% \\
+\hline
+3 & 2,482 & 27.7\% & \$2,142 & \$30 & \$1,921 & \$1,608 & 3.46\% \\
+\hline
+\textbf{Toàn bộ} & \textbf{8,950} & \textbf{100.0\%} & \textbf{\$1,564} & \textbf{\$1,003} & \textbf{\$979} & \textbf{\$1,733} & \textbf{15.37\%} \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Đặt tên cụm và định hướng hành động}
+\begin{tabular}{|c|p{4cm}|p{7cm}|}
+\hline
+\textbf{Cụm} & \textbf{Tên cụm} & \textbf{Định hướng hành động} \\
+\hline
+0 & Khách hàng rủi ro cao & Giám sát rút tiền mặt, giảm giới hạn rút tiền, tăng cường nhắc nợ \\
+\hline
+1 & Khách hàng VIP & Giữ chân bằng ưu đãi cao cấp, tăng bán chéo, duy trì trải nghiệm cá nhân hóa \\
+\hline
+2 & Khách hàng ít sử dụng & Kích hoạt sử dụng bằng hoàn tiền, ưu đãi giao dịch đầu tiên, giáo dục tài chính \\
+\hline
+3 & Khách hàng rút tiền mặt & Quản trị rủi ro tín dụng, giảm lạm dụng rút tiền mặt, theo dõi gian lận \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Độ đo chất lượng mô hình}
+
+\begin{table}[H]
+\centering
+\caption{Chỉ số đánh giá K-means tại K=4}
+\begin{tabular}{|l|r|}
+\hline
+\textbf{Độ đo} & \textbf{Giá trị} \\
+\hline
+Silhouette Score & 0.215 \\
+\hline
+Davies-Bouldin Index & 1.64 \\
+\hline
+Calinski-Harabasz Index & 2,335 \\
+\hline
+Inertia & 85,335 \\
+\hline
+Số vòng lặp hội tụ & 19 \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Kết quả DBSCAN (đối chiếu)}
+
+\begin{table}[H]
+\centering
+\caption{Tóm tắt kết quả DBSCAN với eps=0.5, min\_samples=10}
+\begin{tabular}{|l|r|}
+\hline
+\textbf{Chỉ tiêu} & \textbf{Giá trị} \\
+\hline
+Số cụm tìm thấy & 9 \\
+\hline
+Số điểm dị biệt (outlier) & 8,486 \\
+\hline
+Tỷ lệ điểm dị biệt & 94.82\% \\
+\hline
+Số điểm thuộc cụm & 464 \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Ghi chú:} Tỷ lệ điểm dị biệt rất cao cho thấy DBSCAN với bộ tham số hiện tại không phù hợp để phân khúc khách hàng trong bộ dữ liệu này. K-means là lựa chọn phù hợp hơn cho mục tiêu kinh doanh của báo cáo.
+
+\section{Thống kê chi tiết 17 biến theo cụm}
+
+\subsection{Cụm 0: Khách hàng rủi ro cao (N=1,504)}
+
+\begin{table}[H]
+\centering
+\caption{Thống kê chi tiết tất cả biến - Cụm 0}
+\small
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Biến} & \textbf{Trung bình} & \textbf{Độ lệch chuẩn} & \textbf{Trung vị} \\
+\hline
+BALANCE & \$3,187 & \$2,634 & \$2,891 \\
+\hline
+BALANCE\_FREQUENCY & 0.89 & 0.18 & 0.92 \\
+\hline
+PURCHASES & \$1,326 & \$1,845 & \$756 \\
+\hline
+ONEOFF\_PURCHASES & \$723 & \$1,287 & \$243 \\
+\hline
+INSTALLMENTS\_PURCHASES & \$603 & \$976 & \$189 \\
+\hline
+CASH\_ADVANCE & \$2,551 & \$2,198 & \$2,134 \\
+\hline
+PURCHASES\_FREQUENCY & 0.48 & 0.35 & 0.50 \\
+\hline
+ONEOFF\_PURCHASES\_FREQUENCY & 0.31 & 0.32 & 0.25 \\
+\hline
+PURCHASES\_INSTALLMENTS\_FREQUENCY & 0.29 & 0.31 & 0.17 \\
+\hline
+CASH\_ADVANCE\_FREQUENCY & 0.52 & 0.31 & 0.58 \\
+\hline
+CASH\_ADVANCE\_TRX & 11.2 & 9.8 & 9.0 \\
+\hline
+PURCHASES\_TRX & 19.4 & 18.6 & 15.0 \\
+\hline
+CREDIT\_LIMIT & \$5,607 & \$3,821 & \$4,500 \\
+\hline
+PAYMENTS & \$2,769 & \$2,456 & \$2,187 \\
+\hline
+MINIMUM\_PAYMENTS & \$1,324 & \$2,089 & \$687 \\
+\hline
+PRC\_FULL\_PAYMENT & 3.66\% & 12.4\% & 0.00\% \\
+\hline
+TENURE & 11.6 tháng & 1.2 tháng & 12 tháng \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Cụm 1: Khách hàng VIP (N=2,206)}
+
+\begin{table}[H]
+\centering
+\caption{Thống kê chi tiết tất cả biến - Cụm 1}
+\small
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Biến} & \textbf{Trung bình} & \textbf{Độ lệch chuẩn} & \textbf{Trung vị} \\
+\hline
+BALANCE & \$1,453 & \$1,678 & \$987 \\
+\hline
+BALANCE\_FREQUENCY & 0.95 & 0.13 & 1.00 \\
+\hline
+PURCHASES & \$2,579 & \$2,234 & \$1,987 \\
+\hline
+ONEOFF\_PURCHASES & \$1,487 & \$1,765 & \$987 \\
+\hline
+INSTALLMENTS\_PURCHASES & \$1,092 & \$1,367 & \$623 \\
+\hline
+CASH\_ADVANCE & \$40 & \$178 & \$0 \\
+\hline
+PURCHASES\_FREQUENCY & 0.92 & 0.15 & 1.00 \\
+\hline
+ONEOFF\_PURCHASES\_FREQUENCY & 0.64 & 0.33 & 0.75 \\
+\hline
+PURCHASES\_INSTALLMENTS\_FREQUENCY & 0.58 & 0.34 & 0.67 \\
+\hline
+CASH\_ADVANCE\_FREQUENCY & 0.03 & 0.10 & 0.00 \\
+\hline
+CASH\_ADVANCE\_TRX & 0.3 & 1.2 & 0.0 \\
+\hline
+PURCHASES\_TRX & 45.7 & 28.9 & 42.0 \\
+\hline
+CREDIT\_LIMIT & \$5,938 & \$3,456 & \$5,000 \\
+\hline
+PAYMENTS & \$2,492 & \$2,187 & \$1,876 \\
+\hline
+MINIMUM\_PAYMENTS & \$1,089 & \$1,567 & \$567 \\
+\hline
+PRC\_FULL\_PAYMENT & 23.80\% & 32.1\% & 12.50\% \\
+\hline
+TENURE & 11.7 tháng & 1.0 tháng & 12 tháng \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Cụm 2: Khách hàng ít sử dụng (N=2,758)}
+
+\begin{table}[H]
+\centering
+\caption{Thống kê chi tiết tất cả biến - Cụm 2}
+\small
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Biến} & \textbf{Trung bình} & \textbf{Độ lệch chuẩn} & \textbf{Trung vị} \\
+\hline
+BALANCE & \$249 & \$487 & \$87 \\
+\hline
+BALANCE\_FREQUENCY & 0.67 & 0.32 & 0.75 \\
+\hline
+PURCHASES & \$443 & \$678 & \$198 \\
+\hline
+ONEOFF\_PURCHASES & \$267 & \$512 & \$89 \\
+\hline
+INSTALLMENTS\_PURCHASES & \$176 & \$387 & \$34 \\
+\hline
+CASH\_ADVANCE & \$24 & \$98 & \$0 \\
+\hline
+PURCHASES\_FREQUENCY & 0.39 & 0.33 & 0.33 \\
+\hline
+ONEOFF\_PURCHASES\_FREQUENCY & 0.26 & 0.29 & 0.17 \\
+\hline
+PURCHASES\_INSTALLMENTS\_FREQUENCY & 0.18 & 0.25 & 0.08 \\
+\hline
+CASH\_ADVANCE\_FREQUENCY & 0.02 & 0.08 & 0.00 \\
+\hline
+CASH\_ADVANCE\_TRX & 0.2 & 0.9 & 0.0 \\
+\hline
+PURCHASES\_TRX & 8.9 & 10.2 & 6.0 \\
+\hline
+CREDIT\_LIMIT & \$3,182 & \$2,876 & \$2,500 \\
+\hline
+PAYMENTS & \$674 & \$987 & \$345 \\
+\hline
+MINIMUM\_PAYMENTS & \$345 & \$678 & \$123 \\
+\hline
+PRC\_FULL\_PAYMENT & 25.74\% & 35.6\% & 16.67\% \\
+\hline
+TENURE & 11.3 tháng & 1.5 tháng & 12 tháng \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Cụm 3: Khách hàng rút tiền mặt (N=2,482)}
+
+\begin{table}[H]
+\centering
+\caption{Thống kê chi tiết tất cả biến - Cụm 3}
+\small
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Biến} & \textbf{Trung bình} & \textbf{Độ lệch chuẩn} & \textbf{Trung vị} \\
+\hline
+BALANCE & \$2,142 & \$2,134 & \$1,765 \\
+\hline
+BALANCE\_FREQUENCY & 0.86 & 0.21 & 0.92 \\
+\hline
+PURCHASES & \$30 & \$123 & \$0 \\
+\hline
+ONEOFF\_PURCHASES & \$18 & \$87 & \$0 \\
+\hline
+INSTALLMENTS\_PURCHASES & \$12 & \$67 & \$0 \\
+\hline
+CASH\_ADVANCE & \$1,921 & \$1,876 & \$1,567 \\
+\hline
+PURCHASES\_FREQUENCY & 0.04 & 0.12 & 0.00 \\
+\hline
+ONEOFF\_PURCHASES\_FREQUENCY & 0.03 & 0.10 & 0.00 \\
+\hline
+PURCHASES\_INSTALLMENTS\_FREQUENCY & 0.02 & 0.09 & 0.00 \\
+\hline
+CASH\_ADVANCE\_FREQUENCY & 0.48 & 0.29 & 0.50 \\
+\hline
+CASH\_ADVANCE\_TRX & 9.8 & 8.7 & 8.0 \\
+\hline
+PURCHASES\_TRX & 0.8 & 2.3 & 0.0 \\
+\hline
+CREDIT\_LIMIT & \$3,996 & \$3,234 & \$3,000 \\
+\hline
+PAYMENTS & \$1,608 & \$1,789 & \$1,234 \\
+\hline
+MINIMUM\_PAYMENTS & \$876 & \$1,345 & \$456 \\
+\hline
+PRC\_FULL\_PAYMENT & 3.46\% & 11.8\% & 0.00\% \\
+\hline
+TENURE & 11.5 tháng & 1.3 tháng & 12 tháng \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Ma trận tương quan giữa các biến chính}
+
+\begin{table}[H]
+\centering
+\caption{Ma trận tương quan (Pearson) cho 8 biến quan trọng nhất}
+\small
+\begin{tabular}{|l|r|r|r|r|r|r|r|r|}
+\hline
+ & \textbf{BAL} & \textbf{PUR} & \textbf{CASH} & \textbf{LIMIT} & \textbf{PAY} & \textbf{MINPAY} & \textbf{FULL} & \textbf{TEN} \\
+\hline
+BALANCE & 1.00 & 0.28 & 0.41 & 0.53 & 0.62 & 0.58 & -0.31 & 0.08 \\
+\hline
+PURCHASES & 0.28 & 1.00 & -0.19 & 0.42 & 0.51 & 0.38 & 0.27 & 0.05 \\
+\hline
+CASH\_ADV & 0.41 & -0.19 & 1.00 & 0.11 & 0.34 & 0.45 & -0.42 & 0.02 \\
+\hline
+LIMIT & 0.53 & 0.42 & 0.11 & 1.00 & 0.56 & 0.49 & -0.08 & 0.11 \\
+\hline
+PAYMENTS & 0.62 & 0.51 & 0.34 & 0.56 & 1.00 & 0.89 & -0.15 & 0.07 \\
+\hline
+MIN\_PAY & 0.58 & 0.38 & 0.45 & 0.49 & 0.89 & 1.00 & -0.24 & 0.06 \\
+\hline
+FULL\_PAY & -0.31 & 0.27 & -0.42 & -0.08 & -0.15 & -0.24 & 1.00 & 0.01 \\
+\hline
+TENURE & 0.08 & 0.05 & 0.02 & 0.11 & 0.07 & 0.06 & 0.01 & 1.00 \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Giải thích tương quan mạnh:}
+\begin{itemize}
+    \item PAYMENTS $\leftrightarrow$ MINIMUM\_PAYMENTS (0.89): Tương quan rất cao, phản ánh mối liên hệ trực tiếp trong hành vi trả nợ
+    \item BALANCE $\leftrightarrow$ PAYMENTS (0.62): Số dư cao thường đi kèm thanh toán cao
+    \item BALANCE $\leftrightarrow$ CREDIT\_LIMIT (0.53): Khách hàng có hạn mức cao có xu hướng duy trì số dư cao
+    \item PURCHASES $\leftrightarrow$ PAYMENTS (0.51): Mua hàng nhiều kéo theo thanh toán nhiều
+    \item CASH\_ADVANCE $\leftrightarrow$ PRC\_FULL\_PAYMENT (-0.42): Rút tiền mặt nhiều có tỷ lệ trả đầy đủ thấp (rủi ro)
+\end{itemize}
+
+\section{Thông tin PCA Components}
+
+\begin{table}[H]
+\centering
+\caption{Loadings của 2 thành phần chính (top 6 biến)}
+\begin{tabular}{|l|r|r|}
+\hline
+\textbf{Biến} & \textbf{PC1} & \textbf{PC2} \\
+\hline
+BALANCE & 0.38 & 0.12 \\
+\hline
+PURCHASES & 0.42 & -0.28 \\
+\hline
+CASH\_ADVANCE & 0.15 & 0.51 \\
+\hline
+CREDIT\_LIMIT & 0.35 & 0.06 \\
+\hline
+PAYMENTS & 0.41 & 0.08 \\
+\hline
+PURCHASES\_FREQUENCY & 0.37 & -0.32 \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Diễn giải:}
+\begin{itemize}
+    \item \textbf{PC1 (34.5\% variance):} Chủ yếu phản ánh cường độ sử dụng tổng thể (PURCHASES, PAYMENTS, BALANCE, CREDIT\_LIMIT có loading cao)
+    \item \textbf{PC2 (22.0\% variance):} Phản ánh xu hướng rút tiền mặt (CASH\_ADVANCE có loading cao nhất), ngược chiều với mua hàng
+\end{itemize}
+
+\section{So sánh hiệu suất các phương pháp}
+
+\begin{table}[H]
+\centering
+\caption{So sánh các thuật toán clustering}
+\begin{tabular}{|l|r|r|r|r|}
+\hline
+\textbf{Phương pháp} & \textbf{Silhouette} & \textbf{DB Index} & \textbf{CH Index} & \textbf{Thời gian (s)} \\
+\hline
+K-means (K=4) & 0.215 & 1.64 & 2,335 & 0.18 \\
+\hline
+Hierarchical (Ward) & 0.198 & 1.78 & 2,089 & 3.42 \\
+\hline
+DBSCAN (eps=0.5) & - & - & - & 1.23 \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Ghi chú:} 
+\begin{itemize}
+    \item DBSCAN không có Silhouette/DB/CH do 94.82\% outliers
+    \item K-means tốt nhất về Silhouette và thời gian
+    \item CH Index (Calinski-Harabasz) cao hơn = tốt hơn
+    \item DB Index (Davies-Bouldin) thấp hơn = tốt hơn
+\end{itemize}

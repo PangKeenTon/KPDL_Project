@@ -1,0 +1,265 @@
+\chapter{PHƯƠNG PHÁP}
+
+\section{Quy trình phân tích tổng thể}
+
+Quy trình phân tích được thực hiện theo các bước sau:
+
+\begin{enumerate}
+    \item \textbf{Thu thập và chẩn đoán dữ liệu}
+    \item \textbf{Xử lý dữ liệu (làm sạch, chuẩn hóa)}
+    \item \textbf{Phân tích khám phá (EDA)}
+    \item \textbf{Giảm chiều dữ liệu (PCA)}
+    \item \textbf{Xác định K tối ưu (Elbow + Silhouette)}
+    \item \textbf{Phân cụm K-means}
+    \item \textbf{Xác thực kết quả (Hierarchical, DBSCAN)}
+    \item \textbf{Phân tích đặc trưng cụm}
+    \item \textbf{Phát hiện dị biệt (Outliers)}
+    \item \textbf{Đưa ra khuyến nghị}
+\end{enumerate}
+
+\section{Dữ liệu sử dụng}
+
+\subsection{Nguồn dữ liệu}
+
+Dữ liệu sử dụng là CC GENERAL.csv - bộ dữ liệu công khai về khách hàng thẻ tín dụng.
+
+\subsection{Mô tả dữ liệu}
+
+\begin{table}[H]
+\centering
+\caption{Danh sách các biến trong bộ dữ liệu}
+\small
+\begin{tabular}{|p{4.5cm}|p{2cm}|p{6cm}|p{1.5cm}|}
+\hline
+\textbf{Biến} & \textbf{Loại} & \textbf{Mô tả} & \textbf{Đơn vị} \\
+\hline
+CUST\_ID & Chuỗi & Mã khách hàng & ID \\
+\hline
+BALANCE & Số thực & Số dư trong tài khoản & USD \\
+\hline
+BALANCE\_FREQUENCY & Số thực & Tần suất có số dư & \% \\
+\hline
+PURCHASES & Số thực & Tổng giá trị mua hàng & USD \\
+\hline
+ONEOFF\_PURCHASES & Số thực & Tổng tiền mua một lần & USD \\
+\hline
+INSTALLMENTS\_PURCHASES & Số thực & Tổng tiền mua trả góp & USD \\
+\hline
+CASH\_ADVANCE & Số thực & Tổng tiền rút tiền mặt (cash advance) & USD \\
+\hline
+PURCHASES\_FREQUENCY & Số thực & Tần suất mua hàng & \% \\
+\hline
+CASH\_ADVANCE\_FREQUENCY & Số thực & Tần suất rút tiền & \% \\
+\hline
+CASH\_ADVANCE\_TRX & Số nguyên & Số lần rút tiền & Lần \\
+\hline
+PURCHASES\_TRX & Số nguyên & Số lần mua hàng & Lần \\
+\hline
+CREDIT\_LIMIT & Số thực & Giới hạn tín dụng & USD \\
+\hline
+PAYMENTS & Số thực & Tổng tiền thanh toán & USD \\
+\hline
+MINIMUM\_PAYMENTS & Số thực & Thanh toán tối thiểu & USD \\
+\hline
+PRC\_FULL\_PAYMENT & Số thực & Tỷ lệ thanh toán toàn bộ & \% \\
+\hline
+TENURE & Số nguyên & Số tháng làm khách hàng & Tháng \\
+\hline
+\end{tabular}
+\label{tab:variables}
+\end{table}
+
+\textbf{Kích thước dữ liệu:}
+\begin{itemize}
+    \item Số hàng ban đầu: 8,950 khách hàng (sau xử lý NaN)
+    \item Số cột: 18 (17 biến + 1 ID)
+    \item Nguồn: Kaggle - Credit Card Dataset for Clustering
+\end{itemize}
+
+\section{Kỹ thuật xử lý dữ liệu}
+
+\subsection{Kiểm tra giá trị thiếu (Missing Values)}
+
+Các giá trị thiếu được xác định và xử lý như sau:
+\begin{itemize}
+    \item \textbf{MINIMUM\_PAYMENTS:} Điền bằng median
+    \item \textbf{CREDIT\_LIMIT:} Điền bằng median
+    \item Các biến khác: Không có giá trị thiếu
+\end{itemize}
+
+Công thức điền median:
+\begin{equation}
+x_i = \text{median}(x) \text{ nếu } x_i \text{ là missing}
+\end{equation}
+
+\subsection{Phép biến đổi logarit (Log Transformation)}
+
+Do dữ liệu tài chính thường lệch phải (right-skewed), áp dụng biến đổi logarit:
+
+\begin{equation}
+x'_i = \log(1 + x_i)
+\end{equation}
+
+Cộng 1 để tránh $\log(0)$.
+
+\textbf{Lợi ích:}
+\begin{itemize}
+    \item Giảm độ lệch của phân phối
+    \item Giúp các giá trị lớn và nhỏ có trọng lượng tương đương
+    \item Cải thiện hiệu suất mô hình
+\end{itemize}
+
+\subsection{Chuẩn hóa dữ liệu (Standardization)}
+
+Sử dụng StandardScaler để chuẩn hóa:
+
+\begin{equation}
+z = \frac{x - \mu}{\sigma}
+\end{equation}
+
+Trong đó:
+\begin{itemize}
+    \item $\mu$ = giá trị trung bình của biến
+    \item $\sigma$ = độ lệch chuẩn của biến
+\end{itemize}
+
+\textbf{Lý do:}
+\begin{itemize}
+    \item K-means nhạy cảm với thang đo biến
+    \item Chuẩn hóa không làm thay đổi hình dạng phân phối
+    \item Đảm bảo các biến có cùng ảnh hưởng
+\end{itemize}
+
+\section{Giảm chiều dữ liệu}
+
+\subsection{Tại sao cần giảm chiều?}
+
+\begin{itemize}
+    \item Dữ liệu gốc có 17 chiều, khó trực quan hóa
+    \item Giảm thời gian tính toán
+    \item Giảm nhiễu và overfitting
+    \item Giúp phát hiện cấu trúc ẩn
+\end{itemize}
+
+\subsection{Áp dụng PCA}
+
+PCA được áp dụng để giảm chiều dữ liệu từ 17 chiều xuống 2 chiều:
+\begin{itemize}
+    \item \textbf{Giảm chiều:} Giảm từ 17 biến xuống 2 thành phần chính ($PC1, PC2$)
+    \item \textbf{Giữ lại thông tin:} 2 PC giữ lại khoảng 56.46\% phương sai của dữ liệu gốc
+    \item \textbf{Trực quan hóa:} Dễ dàng vẽ biểu đồ phân tán 2D
+    \item \textbf{Phân cụm:} K-means được thực hiện trên không gian PCA 2 chiều này
+\end{itemize}
+
+Việc sử dụng PCA 2D cho cả trực quan hóa và clustering giúp:
+\begin{itemize}
+    \item Giảm nhiễu từ các biến ít quan trọng
+    \item Tăng tốc độ tính toán
+    \item Giảm overfitting
+    \item Dễ dàng diễn giải và trình bày kết quả
+\end{itemize}
+
+\begin{equation}
+\text{Variance Explained by 2 PCs} = \frac{\lambda_1 + \lambda_2}{\sum_{i=1}^{17} \lambda_i}
+\end{equation}
+
+\section{Xác định số cụm tối ưu}
+
+\subsection{Phương pháp Elbow}
+
+Tính inertia cho mỗi K từ 2 đến 10:
+
+\begin{equation}
+\text{Inertia}(K) = \sum_{k=1}^{K} \sum_{x \in C_k} \|x - \mu_k\|^2
+\end{equation}
+
+Điểm "gãy khúc" nơi tốc độ giảm chậm lại chỉ ra K tối ưu.
+
+\subsection{Chỉ số Silhouette}
+
+Tính Silhouette Score trung bình cho mỗi K:
+
+\begin{equation}
+\text{SilhouetteScore}(K) = \frac{1}{n} \sum_{i=1}^{n} s(i)
+\end{equation}
+
+K tối ưu thường có Silhouette Score cao nhất.
+
+\section{Phân cụm K-means}
+
+\subsection{Thuật toán K-means}
+
+\begin{algorithm}
+\textbf{Input:} Dữ liệu $X = \{x_1, \ldots, x_n\}$, số cụm $K$
+\newline
+\textbf{Output:} Nhãn cụm cho mỗi điểm
+\begin{enumerate}
+    \item \textbf{Khởi tạo:} Chọn ngẫu nhiên K tâm cụm $\mu_1, \ldots, \mu_K$
+    \item \textbf{Lặp:}
+    \begin{enumerate}
+        \item \textbf{Gán:} Gán mỗi $x_i$ tới cụm gần nhất: $c_i = \arg\min_k \|x_i - \mu_k\|$
+        \item \textbf{Cập nhật:} $\mu_k = \frac{1}{|C_k|} \sum_{x \in C_k} x$
+    \end{enumerate}
+    \item \textbf{Dừng:} Khi tâm cụm hội tụ hoặc số lần lặp đạt giới hạn
+\end{enumerate}
+\end{algorithm}
+
+\subsection{Khởi tạo K-means}
+
+Sử dụng k-means++ để khởi tạo tâm cụm:
+\begin{itemize}
+    \item Chọn tâm đầu tiên ngẫu nhiên
+    \item Mỗi tâm tiếp theo: chọn điểm xa tâm gần nhất
+    \item Giảm nguy cơ hội tụ cục bộ không tốt
+\end{itemize}
+
+\section{Xác thực kết quả phân cụm}
+
+\subsection{So sánh với phân cụm phân cấp}
+
+Áp dụng phân cụm phân cấp với Ward linkage để xác nhận kết quả K-means.
+
+\subsection{Phát hiện dị biệt bằng DBSCAN}
+
+Sử dụng DBSCAN với tham số:
+\begin{itemize}
+    \item $\epsilon = 0.5$ (bán kính láng giềng)
+    \item $\text{min\_samples} = 10$ (số điểm tối thiểu)
+\end{itemize}
+
+Mục đích:
+\begin{itemize}
+    \item Phát hiện điểm bất thường tự động
+    \item Không cần xác định K trước
+    \item Xác định khách hàng có hành vi khác biệt đáng kể
+\end{itemize}
+
+\section{Phân tích và đặc trưng cụm}
+
+Đối với mỗi cụm, tính toán:
+\begin{itemize}
+    \item \textbf{Thống kê mô tả} (mean, std, min, max) cho mỗi biến
+    \item \textbf{Kích thước cụm} = số khách hàng trong cụm
+    \item \textbf{Đặc trưng chính} = biến phân biệt nhất cụm này với cụm khác
+    \item \textbf{Tên/Label} cho mỗi cụm dựa trên hành vi
+\end{itemize}
+
+\section{Công cụ và môi trường}
+
+\textbf{Ngôn ngữ lập trình:} Python 3.8+
+
+\textbf{Thư viện chủ yếu:}
+\begin{itemize}
+    \item \textbf{pandas:} Xử lý dữ liệu bảng
+    \item \textbf{numpy:} Tính toán số học
+    \item \textbf{scikit-learn:} Thuật toán ML (KMeans, PCA, DBSCAN)
+    \item \textbf{scipy:} Tính toán thống kê (linkage, dendrogram)
+    \item \textbf{matplotlib, seaborn:} Trực quan hóa dữ liệu
+\end{itemize}
+
+\textbf{Môi trường thực thi:} 
+\begin{itemize}
+    \item Jupyter Notebook
+    \item Python Virtual Environment (.venv)
+    \item CPU đa lõi (xử lý song song)
+\end{itemize}

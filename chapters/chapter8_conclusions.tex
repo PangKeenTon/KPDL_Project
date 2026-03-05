@@ -1,0 +1,205 @@
+\chapter{KẾT LUẬN}
+
+\section{Tóm tắt các kết quả chính}
+
+Báo cáo này đã trình bày một phân tích toàn diện về phân cụm khách hàng thẻ tín dụng bằng các kỹ thuật khai phá dữ liệu. Các kết quả chính bao gồm:
+
+\subsection{Về dữ liệu}
+
+\begin{itemize}
+    \item Dữ liệu từ 8,950 khách hàng và 17 biến tài chính
+    \item Sau xử lý, dữ liệu hoàn chỉnh và sạch, sẵn sàng cho phân tích
+    \item Các biến có phân phối lệch phải điển hình của dữ liệu tài chính
+    \item Có mối tương quan vừa phải giữa các biến
+\end{itemize}
+
+\subsection{Về phương pháp}
+
+\begin{itemize}
+    \item Áp dụng K-means clustering với PCA giảm chiều
+    \item Sử dụng Elbow Method và Silhouette Score để xác định K=4 tối ưu
+    \item Xác thực kết quả bằng Hierarchical Clustering và DBSCAN
+    \item K-means cho hiệu suất tốt hơn với Silhouette Score = 0.215
+\end{itemize}
+
+\subsection{Về kết quả phân cụm}
+
+Tìm được 4 phân khúc khách hàng rõ ràng:
+
+\begin{table}[H]
+\centering
+\caption{Tóm tắt 4 cụm}
+\begin{tabular}{|l|r|l|l|}
+\hline
+\textbf{Cụm} & \textbf{Tỷ lệ} & \textbf{Tên} & \textbf{Giá trị} \\
+\hline
+Cụm 0 & 16.8\% & High-Risk Customers & Rủi ro \\
+\hline
+Cụm 1 & 24.6\% & Premium/VIP Customers & Rất cao \\
+\hline
+Cụm 2 & 30.8\% & Low-Activity & Tiềm năng \\
+\hline
+Cụm 3 & 27.7\% & Cash Advance Users & Rủi ro \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Về giá trị kinh doanh}
+
+\begin{itemize}
+    \item CLV ước tính cho các cụm cho thấy sự khác biệt giá trị rõ rệt giữa các phân khúc
+    \item Cụm 1 (Premium/VIP) là nhóm có giá trị cao nhất với tổng giá trị \$19.7M
+    \item Cụm 3 (Cash Advance Users) có rủi ro nợ tiềm ẩn khoảng \$4.77M trong rút tiền mặt
+    \item Cụm 2 (Low-Activity) có tiềm năng phát triển: \$120K từ 1 campaign đơn giản
+\end{itemize}
+
+\section{Các khám phá chính}
+
+\subsection{Phân khúc có sự chồng chéo}
+
+Mặc dù có 4 cụm, nhưng:
+\begin{itemize}
+    \item Silhouette Score = 0.215 ở mức thấp, cho thấy các cụm có sự chồng chéo
+    \item Các cụm có ranh giới tương đối mờ trên bản đồ PCA
+    \item DBSCAN xác định 8,486 khách (94.82\%) là outliers, cho thấy thuật toán này không phù hợp
+\end{itemize}
+
+\textbf{Giải thích:} Hành vi khách hàng tài chính là phức tạp với nhiều mức độ khác nhau. K-means vẫn là lựa chọn phù hợp nhất cho dữ liệu này.
+
+\subsection{Cụm 1 (Premium/VIP) là nhóm giá trị cao nhất}
+
+\begin{itemize}
+    \item Chiếm 24.6\% khách hàng
+    \item Mua hàng cao nhất (\$2,579/tháng), thanh toán đầy đủ 23.80\%
+    \item Cần chiến lược giữ chân và phát triển VIP loyalty
+\end{itemize}
+
+\subsection{Cụm 2 (Low-Activity) có tiềm năng phát triển cao}
+
+\begin{itemize}
+    \item Nhóm lớn nhất (30.8\%), chưa kích hoạt sử dụng (BALANCE chỉ \$249)
+    \item Tỷ lệ thanh toán đầy đủ cao (25.74\%), cho thấy khả năng tài chính tốt
+    \item ROI từ activation campaign rất cao (520\%)
+\end{itemize}
+
+\subsection{Cụm 3 (Cash Advance Users) là nhóm rủi ro cao}
+
+\begin{itemize}
+    \item Chiếm 27.7\% khách hàng
+    \item Rút tiền mặt rất cao (\$1,921/tháng) nhưng hầu như không mua hàng (\$30/tháng)
+    \item Tỷ lệ thanh toán đầy đủ rất thấp (3.46\%), cần giám sát chặt chẽ
+\end{itemize}
+
+\section{Hạn chế của nghiên cứu}
+
+\subsection{Về dữ liệu}
+
+\begin{itemize}
+    \item \textbf{Snapshot duy nhất:} Dữ liệu từ một thời điểm, không có chuỗi thời gian
+    \item \textbf{Thiếu biến nhân khẩu học:} Không có thông tin về độ tuổi, giới tính, địa điểm
+    \item \textbf{Không có nhãn:} Không có target variable như churn hoặc default để xác thực
+    \item \textbf{Kích thước dữ liệu:} 8,950 khách hàng có thể không đủ lớn cho các ngân hàng lớn
+\end{itemize}
+
+\subsection{Về phương pháp}
+
+\begin{itemize}
+    \item \textbf{K-means giả định:} Các cụm có hình dạng gần cầu, kích thước tương đương
+    \item \textbf{Không giám sát:} Không có nhãn để xác thực kết quả
+    \item \textbf{PCA giảm thông tin:} Giảm xuống 2D chỉ giữ 56.46\% phương sai cho trực quan hóa
+    \item \textbf{Tham số DBSCAN:} Chọn eps, min\_samples một cách heuristic, không tối ưu
+    \item \textbf{Độ nhạy khởi tạo:} K-means phụ thuộc tâm khởi tạo; mặc dù kiểm định 30 lần chạy cho thấy chỉ số ổn định, vẫn tồn tại dao động cục bộ ở vùng ranh giới cụm
+    \item \textbf{Đánh đổi giữa diễn giải và độ tách cụm:} K=4 được chọn vì giá trị kinh doanh và khả năng diễn giải, không phải cấu hình có độ tách cụm tuyệt đối cao nhất
+\end{itemize}
+
+\subsection{Về giá trị kinh doanh}
+
+\begin{itemize}
+    \item \textbf{CLV ước tính:} Dựa trên các giả định về lãi suất, giữ chân, không chắc chắn
+    \item \textbf{Không tính đến chi phí:} Marketing cost, operational cost không được tính
+    \item \textbf{Không có kiểm chứng A/B:} Các khuyến nghị chưa được kiểm tra thực tế
+\end{itemize}
+
+\section{Hướng phát triển tương lai}
+
+\subsection{Cải thiện dữ liệu}
+
+\begin{enumerate}
+    \item \textbf{Thêm dữ liệu thời gian:} Thu thập dữ liệu hàng tháng để xem xu hướng
+    \item \textbf{Thêm biến nhân khẩu học:} Độ tuổi, giới tính, địa vị xã hội, thu nhập
+    \item \textbf{Thêm biến hành vi:} Sở thích mua sắm, loại hình giao dịch
+    \item \textbf{Nhãn churn:} Thu thập data về khách hàng churn hoặc default để huấn luyện
+\end{enumerate}
+
+\subsection{Cải thiện phương pháp}
+
+\begin{enumerate}
+    \item \textbf{Stability selection có hệ thống:} Chuẩn hóa quy trình lặp nhiều seed theo chu kỳ, báo cáo mean$\pm$std và khoảng tin cậy cho các chỉ số chính
+    \item \textbf{Đánh giá ngoài mẫu theo thời gian:} Huấn luyện trên giai đoạn trước, đánh giá phân cụm trên giai đoạn sau để kiểm tra độ bền theo biến động hành vi khách hàng
+    \item \textbf{Gaussian Mixture Model:} Tính xác suất thuộc cụm của mỗi khách, phù hợp dữ liệu có chồng chéo
+    \item \textbf{Fuzzy C-means:} Cho phép khách hàng nằm giữa các cụm với mức độ thành viên mềm
+    \item \textbf{Spectral Clustering:} Xử lý các cụm có hình dạng phức tạp hơn giả định cầu của K-means
+    \item \textbf{Deep Learning:} Autoencoder/VAE để học biểu diễn đặc trưng tốt hơn trước khi phân cụm
+    \item \textbf{Online learning:} Cập nhật phân cụm khi có khách hàng mới theo thời gian thực
+\end{enumerate}
+
+\subsection{Mở rộng ứng dụng}
+
+\begin{enumerate}
+    \item \textbf{Phân loại khách hàng mới:} Huấn luyện classifier để dự báo cụm của khách mới
+    \item \textbf{Churn prediction:} Dùng cụm + features để dự báo khách nào sẽ rời bỏ
+    \item \textbf{Fraud detection:} Dùng cụm + anomaly detection để phát hiện gian lận
+    \item \textbf{Recommendation system:} Gợi ý sản phẩm dựa trên hành vi cụm
+    \item \textbf{Dynamic pricing:} Điều chỉnh lãi suất, fee dựa trên cụm
+    \item \textbf{Product development:} Thiết kế sản phẩm mới cho các phân khúc
+\end{enumerate}
+
+\subsection{Cải thiện hiệu quả kinh doanh}
+
+\begin{enumerate}
+    \item \textbf{A/B Testing:} Kiểm chứng các khuyến nghị marketing bằng A/B test
+    \item \textbf{ROI Tracking:} Đo lường hiệu quả từng campaign cho mỗi cụm
+    \item \textbf{Real-time Segmentation:} Cập nhật cụm của khách hàng theo thời gian thực
+    \item \textbf{Integration với CRM:} Tích hợp phân cụm vào hệ thống CRM hiện tại
+    \item \textbf{Automation:} Tự động gửi offer phù hợp với cụm
+\end{enumerate}
+
+\section{Ứng dụng thực tế}
+
+\subsection{Ngay lập tức}
+
+Các ngân hàng có thể:
+\begin{enumerate}
+    \item \textbf{Áp dụng 4 cụm} vào CRM và marketing system
+    \item \textbf{Tạo 4 campaign khác nhau} cho mỗi cụm
+    \item \textbf{Giám sát Cụm 0 và Cụm 3} chặt chẽ để giảm rủi ro (high cash advance)
+    \item \textbf{Kích hoạt Cụm 2} bằng các ưu đãi hấp dẫn
+    \item \textbf{Giữ Cụm 1 (VIP)} bằng dịch vụ premium và loyalty program
+\end{enumerate}
+
+\subsection{Dài hạn}
+
+Xây dựng một hệ thống:
+\begin{itemize}
+    \item \textbf{Segmentation platform:} Tự động phân loại khách hàng
+    \item \textbf{Prediction models:} Dự báo churn, default, spending
+    \item \textbf{Personalization engine:} Gửi offer cá nhân hóa
+    \item \textbf{Analytics dashboard:} Theo dõi hiệu quả từng cụm
+    \item \textbf{MLOps:} Cập nhật mô hình định kỳ với dữ liệu mới
+\end{itemize}
+
+\section{Kết luận cuối cùng}
+
+Phân tích phân cụm khách hàng thẻ tín dụng đã thành công xác định 4 phân khúc khách hàng rõ ràng với các đặc trưng, hành vi và giá trị kinh doanh khác nhau. Kết quả này cung cấp một cơ sở vững chắc cho các ngân hàng để:
+
+\begin{enumerate}
+    \item \textbf{Hiểu rõ hơn} về cấu trúc cơ sở khách hàng
+    \item \textbf{Phát triển chiến lược} tiếp thị được cá nhân hóa cho mỗi phân khúc
+    \item \textbf{Quản lý rủi ro} hiệu quả hơn bằng cách xác định các nhóm rủi ro cao
+    \item \textbf{Tối ưu hóa doanh thu} bằng cách tập trung vào các phân khúc có giá trị cao
+    \item \textbf{Cải thiện trải nghiệm khách hàng} bằng cách cung cấp dịch vụ phù hợp
+\end{enumerate}
+
+Mặc dù có những hạn chế, nhưng phương pháp và kết quả là thực tế và có thể triển khai ngay trong môi trường sản xuất. Với sự cải tiến tiếp tục về dữ liệu và phương pháp, các ngân hàng có thể duy trì một hệ thống phân cụm động, thích ứng với thay đổi hành vi khách hàng.
+
+\textbf{Tóm lại:} Phân tích này chứng minh rằng khai phá dữ liệu là một công cụ mạnh mẽ để hiểu và phục vụ khách hàng tốt hơn trong ngành tài chính. Việc áp dụng các kỹ thuật như K-means clustering có thể mang lại lợi ích kinh tế lớn nếu được triển khai một cách có chiến lược.

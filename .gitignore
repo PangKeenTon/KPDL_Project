@@ -1,0 +1,55 @@
+# Thư mục môi trường ảo (Rất nặng, không nên đẩy lên)
+.venv/
+venv/
+env/
+
+# Các file rác của Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Các file lưu biến môi trường (Chứa mật khẩu, API key - Tuyệt đối không đẩy lên)
+.env
+
+# File định dạng của VS Code
+.vscode/
+
+# LaTeX build files (tạo ra được từ source, không cần lưu)
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.dvi
+*.ps
+
+# Các file log cũ từ quá trình compile
+compile_*.log
+out.log
+
+# File tạm của Windows/Office
+~$*
+*.docx
+*.doc
+
+# Dữ liệu lớn (giữ lại nếu cần thiết để rerun)
+# data/*.csv
+# data/*.json
+
+# Các file tạm Python
+*.pem
+*.key
+.DS_Store
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~

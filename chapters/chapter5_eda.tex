@@ -1,0 +1,108 @@
+﻿\chapter{PHÂN TÍCH KHÁM PHÁ DỮ LIỆU (EDA)}
+
+\section{Mục tiêu EDA}
+
+Chương này tập trung phân tích thống kê mô tả và quan hệ giữa các biến tài chính để:
+\begin{itemize}
+    \item Hiểu đặc điểm phân bố dữ liệu trước khi phân cụm
+    \item Xác định biến có độ phân biệt cao giữa các nhóm khách hàng
+    \item Kiểm tra điều kiện phù hợp cho K-means
+\end{itemize}
+
+\section{Thống kê mô tả các biến chính}
+
+\begin{table}[H]
+\centering
+\caption{Thống kê mô tả cho các biến tài chính trọng yếu (N = 8,950)}
+\begin{tabular}{|l|r|r|r|r|}
+\hline
+\textbf{Biến} & \textbf{Trung bình} & \textbf{Độ lệch chuẩn} & \textbf{Trung vị} & \textbf{Giá trị lớn nhất} \\
+\hline
+BALANCE & \$1,564 & \$2,095 & \$873 & \$19,043 \\
+\hline
+PURCHASES & \$1,003 & \$2,136 & \$361 & \$49,040 \\
+\hline
+CASH\_ADVANCE & \$979 & \$2,097 & \$0 & \$47,137 \\
+\hline
+CREDIT\_LIMIT & \$4,494 & \$3,639 & \$3,000 & \$30,000 \\
+\hline
+PAYMENTS & \$1,733 & \$2,895 & \$857 & \$50,721 \\
+\hline
+MINIMUM\_PAYMENTS & \$864 & \$2,372 & \$312 & \$76,406 \\
+\hline
+PRC\_FULL\_PAYMENT & 15.37\% & 29.3\% & 0.00\% & 100\% \\
+\hline
+TENURE & 11.5 tháng & 1.3 tháng & 12 tháng & 12 tháng \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Nhận xét chính:}
+\begin{itemize}
+    \item Dữ liệu có phân phối lệch phải rõ ở các biến tiền tệ (BALANCE, PURCHASES, CASH\_ADVANCE)
+    \item Trung vị thấp hơn nhiều so với trung bình ở nhiều biến, cho thấy tồn tại nhóm khách hàng chi tiêu/rút tiền rất cao
+    \item TENURE tập trung trong khoảng 6-12 tháng, phù hợp đặc trưng dữ liệu tổng hợp theo chu kỳ năm
+\end{itemize}
+
+\section{Phân tích hành vi tài chính tổng quan}
+
+\subsection{Hành vi chi tiêu và thanh toán}
+
+\begin{itemize}
+    \item PURCHASES trung bình \$1,003/tháng, nhưng phân tán lớn, phản ánh khác biệt mạnh về mức độ sử dụng thẻ
+    \item PAYMENTS trung bình \$1,733 cao hơn PURCHASES trung bình, cho thấy tồn tại nhóm khách hàng thanh toán tích cực
+    \item PRC\_FULL\_PAYMENT trung bình 15.37\%: phần lớn khách hàng không thanh toán toàn bộ dư nợ mỗi kỳ
+\end{itemize}
+
+\subsection{Hành vi rút tiền mặt}
+
+\begin{itemize}
+    \item CASH\_ADVANCE trung bình \$979, trung vị bằng 0: đa số khách không rút tiền thường xuyên
+    \item Nhóm nhỏ khách hàng rút tiền rất cao kéo trung bình tăng mạnh, là tín hiệu rủi ro tín dụng cần theo dõi
+\end{itemize}
+
+\section{Tương quan giữa các biến}
+
+\begin{table}[H]
+\centering
+\caption{Một số cặp tương quan đáng chú ý}
+\begin{tabular}{|l|l|r|}
+\hline
+\textbf{Biến 1} & \textbf{Biến 2} & \textbf{Hệ số tương quan} \\
+\hline
+PAYMENTS & MINIMUM\_PAYMENTS & 0.89 \\
+\hline
+PURCHASES & PURCHASES\_TRX & 0.74 \\
+\hline
+BALANCE & CREDIT\_LIMIT & 0.53 \\
+\hline
+CASH\_ADVANCE & CASH\_ADVANCE\_TRX & 0.69 \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Diễn giải:}
+\begin{itemize}
+    \item PAYMENTS và MINIMUM\_PAYMENTS tương quan rất cao, phản ánh quan hệ trực tiếp trong hành vi trả nợ
+    \item PURCHASES và PURCHASES\_TRX tương quan cao, phù hợp trực giác: số lần mua tăng kéo tổng chi tiêu tăng
+    \item Không có tương quan tuyệt đối gần 1.0 giữa các biến chính, nên thông tin giữa các biến vẫn đủ đa dạng để phân cụm
+\end{itemize}
+
+\section{Kiểm tra điều kiện cho phân cụm}
+
+\begin{itemize}
+    \item Dữ liệu đã được xử lý thiếu và chuẩn hóa ở Chương 4
+    \item Các biến có phương sai khác 0, không có biến hằng
+    \item Cỡ mẫu 8,950 đủ lớn cho phân cụm ổn định
+    \item Có sự khác biệt hành vi rõ giữa nhóm chi tiêu cao, rút tiền cao và nhóm sử dụng thấp
+\end{itemize}
+
+\section{Kết luận chương}
+
+Kết quả EDA cho thấy dữ liệu có đủ độ biến thiên và cấu trúc hành vi để thực hiện phân cụm khách hàng. Hai chiều hành vi nổi bật nhất là:
+\begin{enumerate}
+    \item Mức độ chi tiêu và thanh toán
+    \item Mức độ phụ thuộc vào rút tiền mặt
+\end{enumerate}
+
+Các phát hiện này là cơ sở trực tiếp cho bước giảm chiều và phân cụm ở Chương 6.

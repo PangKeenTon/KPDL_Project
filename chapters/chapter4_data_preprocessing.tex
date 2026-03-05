@@ -1,0 +1,247 @@
+\chapter{XỬ LÝ DỮ LIỆU}
+
+\section{Tổng quan bước xử lý dữ liệu}
+
+Xử lý dữ liệu là một bước cực kỳ quan trọng chiếm khoảng 70-80\% thời gian dự án phân tích. Bước này bao gồm:
+
+\begin{itemize}
+    \item Kiểm tra chất lượng dữ liệu
+    \item Xử lý giá trị thiếu
+    \item Xử lý giá trị ngoại lệ (outliers)
+    \item Biến đổi dữ liệu
+    \item Chuẩn hóa dữ liệu
+    \item Kiểm tra và loại bỏ trùng lặp
+\end{itemize}
+
+\section{Chẩn đoán chất lượng dữ liệu ban đầu}
+
+\subsection{Kích thước và loại dữ liệu}
+
+\begin{table}[H]
+\centering
+\caption{Thống kê cơ bản của dữ liệu gốc}
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Thông tin} & \textbf{Kích thước} & \textbf{Loại} & \textbf{Ghi chú} \\
+\hline
+Số dòng & 8,950 & - & Khách hàng \\
+\hline
+Số cột & 17 & - & Biến đặc trưng \\
+\hline
+Bộ nhớ & ~0.86 MB & - & CSV dạng văn bản \\
+\hline
+Kiểu dữ liệu & 17 (Num) & float64, int64 & Toàn là số \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Phát hiện giá trị thiếu}
+
+Kiểm tra từng biến:
+
+\begin{table}[H]
+\centering
+\caption{Giá trị thiếu trong mỗi biến}
+\begin{tabular}{|l|r|r|}
+\hline
+\textbf{Biến} & \textbf{Giá trị thiếu} & \textbf{Tỷ lệ (\%)} \\
+\hline
+BALANCE & 0 & 0.00 \\
+\hline
+PURCHASES & 0 & 0.00 \\
+\hline
+CASH\_ADVANCE & 0 & 0.00 \\
+\hline
+CREDIT\_LIMIT & 1 & 0.01 \\
+\hline
+MINIMUM\_PAYMENTS & 313 & 3.50 \\
+\hline
+Các biến khác & 0 & 0.00 \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Quan sát:} 
+\begin{itemize}
+    \item MINIMUM\_PAYMENTS thiếu 313 giá trị (3.50\%)
+    \item CREDIT\_LIMIT thiếu 1 giá trị (0.01\%)
+    \item Các biến khác hoàn chỉnh
+\end{itemize}
+
+\section{Xử lý giá trị thiếu}
+
+\subsection{Chiến lược điền (Imputation)}
+
+Do tỷ lệ giá trị thiếu nhỏ (<5\%), sử dụng phương pháp điền median:
+
+\begin{equation}
+x_i^{\text{imputed}} = \begin{cases}
+\text{median}(x) & \text{nếu } x_i \text{ là missing} \\
+x_i & \text{nếu } x_i \text{ có giá trị}
+\end{cases}
+\end{equation}
+
+\subsection{So sánh các phương pháp}
+
+\begin{table}[H]
+\centering
+\caption{So sánh các phương pháp điền giá trị thiếu}
+\begin{tabular}{|l|p{3cm}|p{2cm}|p{3cm}|}
+\hline
+\textbf{Phương pháp} & \textbf{Ưu điểm} & \textbf{Nhược điểm} & \textbf{Khi nào dùng} \\
+\hline
+Xóa hàng & Đơn giản & Mất dữ liệu & Rất ít thiếu \\
+\hline
+Mean/Median & Nhanh & Giảm phương sai & Thiếu ngẫu nhiên \\
+\hline
+Forward fill & Giữ xu hướng & Chỉ cho chuỗi thời gian & Chuỗi thời gian \\
+\hline
+KNN & Tính tương tự & Chậm & Dữ liệu nhỏ \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Kết quả sau khi điền}
+
+Sau khi áp dụng điền median:
+\begin{itemize}
+    \item MINIMUM\_PAYMENTS median = \$312.34
+    \item CREDIT\_LIMIT median = \$3,000
+    \item Tất cả giá trị thiếu được xử lý
+    \item Dữ liệu hoàn chỉnh 8,950 × 17
+\end{itemize}
+
+\section{Loại bỏ và xử lý dữ liệu không cần thiết}
+
+\subsection{Xóa CUST\_ID}
+
+CUST\_ID là mã định danh khách hàng, không mang thông tin thống kê, vì vậy loại bỏ:
+
+\begin{itemize}
+    \item Không cần thiết để phân cụm
+    \item Giảm kích thước dữ liệu
+    \item Lưu giữ nhưng không đưa vào ma trận đặc trưng X
+\end{itemize}
+
+\section{Phép biến đổi dữ liệu}
+
+\subsection{Tại sao cần biến đổi logarit}
+
+Biến đổi logarit là kỹ thuật phổ biến để xử lý dữ liệu lệch. Phân tích phân phối ban đầu cho thấy:
+\begin{itemize}
+    \item BALANCE: Phân phối lệch phải mạnh
+    \item PURCHASES: Phân phối lệch phải
+    \item CASH\_ADVANCE: Phân phối lệch phải
+\end{itemize}
+
+Biến đổi logarit giúp:
+\begin{itemize}
+    \item Chuẩn hóa hình dạng phân phối
+    \item Giảm ảnh hưởng của giá trị ngoại lệ
+    \item Cải thiện hiệu suất mô hình tuyến tính
+\end{itemize}
+
+\subsection{Áp dụng log transformation}
+
+\begin{equation}
+X_{\log} = \log(1 + X)
+\end{equation}
+
+Cộng 1 để tránh $\ln(0) = -\infty$ khi một khách hàng có số dư = 0.
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item Giảm độ lệch phải
+    \item Tăng tính bình thường của phân phối
+    \item Cải thiện hiệu suất clustering
+\end{itemize}
+
+\section{Chuẩn hóa dữ liệu}
+
+\subsection{Vấn đề thang đo (Scaling Problem)}
+
+Dữ liệu gốc có thang đo khác nhau:
+\begin{itemize}
+    \item BALANCE: $0 - \$100,000+$
+    \item PURCHASES\_FREQUENCY: $0 - 1.0$ (tỷ lệ)
+    \item Khoảng cách Euclid sẽ bị ưu tiên bởi biến lớn
+\end{itemize}
+
+\subsection{StandardScaler}
+
+Áp dụng chuẩn hóa z-score:
+
+\begin{equation}
+z_{ij} = \frac{x_{ij} - \mu_j}{\sigma_j}
+\end{equation}
+
+Kết quả:
+\begin{itemize}
+    \item Tất cả biến có mean = 0, std = 1
+    \item Phạm vi giá trị: khoảng $[-3, 3]$ cho hầu hết dữ liệu
+    \item Không mất thông tin, chỉ thay đổi thang đo
+\end{itemize}
+
+\subsection{Nguyên tắc Fit và Transform}
+
+\textbf{Lưu ý:} Đối với dự án phân cụm này, scaler được fit và transform trên toàn bộ dữ liệu (unsupervised learning). Tuy nhiên, trong các bài toán học có giám sát (supervised learning), nguyên tắc quan trọng là:
+
+\begin{enumerate}
+    \item Chỉ fit scaler trên tập huấn luyện (training set)
+    \item Chỉ transform trên tập kiểm tra (test set)
+    \item KHÔNG fit lại trên tập kiểm tra
+\end{enumerate}
+
+Ví dụ minh họa cho supervised learning:
+\begin{equation}
+\text{scaler.fit}(X_{\text{train}})
+\quad \Rightarrow \quad
+z_{\text{train}} = \text{scaler.transform}(X_{\text{train}})
+\quad \Rightarrow \quad
+z_{\text{test}} = \text{scaler.transform}(X_{\text{test}})
+\end{equation}
+
+\textbf{Trong dự án này:} Do không có chia tập train/test, sử dụng \texttt{fit\_transform(X)} trên toàn bộ dữ liệu.
+
+\section{Thống kê mô tả sau xử lý}
+
+\begin{table}[H]
+\centering
+\caption{Thống kê mô tả sau xử lý log transformation}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+\textbf{Biến} & \textbf{Mean} & \textbf{Std} & \textbf{Min} & \textbf{Max} & \textbf{Q50} \\
+\hline
+BALANCE & 6.16 & 2.01 & 0.00 & 9.85 & 6.77 \\
+\hline
+PURCHASES & 4.90 & 2.92 & 0.00 & 10.80 & 5.89 \\
+\hline
+CASH\_ADVANCE & 3.32 & 3.57 & 0.00 & 10.76 & 0.00 \\
+\hline
+\multicolumn{6}{|l|}{(Các biến khác tương tự)} \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Lưu ý:} Sau bước log transformation, dữ liệu được chuẩn hóa bằng StandardScaler để tất cả biến có mean = 0 và std = 1, chuẩn bị cho thuật toán phân cụm.
+
+\section{Kiểm tra trùng lặp}
+
+Kiểm tra xem có hàng trùng lặp hoàn toàn:
+\begin{itemize}
+    \item Số hàng trùng lặp: 0
+    \item Dữ liệu hoàn toàn duy nhất
+\end{itemize}
+
+\section{Tạm kết luận về xử lý dữ liệu}
+
+Sau khi hoàn tất bước xử lý:
+\begin{itemize}
+    \item Không còn giá trị thiếu
+    \item Dữ liệu đã được biến đổi logarit
+    \item Dữ liệu đã được chuẩn hóa
+    \item Không có hàng trùng lặp
+    \item Sẵn sàng cho bước phân tích tiếp theo
+\end{itemize}
+
+Ma trận dữ liệu cuối cùng: $X \in \mathbb{R}^{8950 \times 17}$, kích thước phù hợp cho phân cụm.

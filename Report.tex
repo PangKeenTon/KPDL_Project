@@ -1,0 +1,168 @@
+\documentclass[12pt, a4paper, twoside]{report}
+
+% Font support for Vietnamese (XeTeX)
+\usepackage{fontspec}
+\usepackage[vietnamese]{babel}
+
+% Main font with Vietnamese support
+% Using available fonts with Vietnamese support
+\setmainfont{Calibri}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[table]{xcolor}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% Header and Footer
+\setlength{\headheight}{16pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{\thepage}
+
+% Code formatting
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codepurple},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4
+}
+
+% Line spacing
+\onehalfspacing
+
+% Title page
+\title{\textbf{PHÂN TÍCH VÀ PHÂN CỤM KHÁCH HÀNG THẺ TÍN DỤNG} \\[0.5cm]
+\large Ứng dụng Khai Phá Dữ Liệu và Học Máy\\[0.5cm]
+\normalsize Báo Cáo Môn Học: Khai Phá Dữ Liệu}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+% Trang nhận xét
+\thispagestyle{empty}
+\vspace*{1cm}
+\begin{center}
+\textbf{TRANG NHẬN XÉT CỦA GIẢNG VIÊN}
+\end{center}
+\vspace{1cm}
+
+\noindent Tên sinh viên: \hfill Nguyễn Đức Mạnh
+
+\vspace{0.8cm}
+\noindent Mã sinh viên: \hfill 23010902
+
+\vspace{0.8cm}
+\noindent Lớp học phần: \hfill Khai phá dữ liệu-1-2-25(N01)
+
+\vspace{2cm}
+
+\noindent \textbf{Nhận xét chung:}
+\vspace{5.5cm}
+
+\noindent Điểm số: \hfill \line(1,0){50}
+
+\vspace{0.8cm}
+\noindent Chữ ký giảng viên: \hfill \line(1,0){100}
+
+\vspace{0.8cm}
+\noindent Ngày: \hfill \line(1,0){100}
+
+\newpage
+
+% Table of contents
+\tableofcontents
+\newpage
+
+% Lời cảm ơn
+\chapter*{LỜI CẢM ƠN}
+\addcontentsline{toc}{chapter}{Lời cảm ơn}
+
+Em xin gửi lời cảm ơn chân thành và sâu sắc đến thầy Trịnh Thành, giảng viên môn Khai Phá Dữ Liệu, đã tận tình hướng dẫn, chỉ bảo và tạo điều kiện thuận lợi cho em hoàn thành báo cáo này. Sự giảng dạy chu đáo của thầy đã giúp em nắm vững các khái niệm cơ bản về phân tích dữ liệu, machine learning, và các kỹ thuật clustering. Hơn nữa, thầy luôn khuyến khích em tìm hiểu sâu, thử nghiệm và áp dụng các kiến thức lý thuyết vào thực tế.
+
+Báo cáo này là kết quả của quá trình tìm hiểu, thí nghiệm, và phân tích dữ liệu về phân cụm khách hàng thẻ tín dụng. Thông qua quá trình này, em không chỉ học được cách xử lý dữ liệu, lựa chọn thuật toán phù hợp, mà còn rèn luyện kỹ năng phân tích vấn đề một cách có hệ thống và khoa học.
+
+Em cũng xin ghi nhận những đóng góp quan trọng từ các tài liệu tham khảo quý báu, cũng như sự hỗ trợ của cộng đồng mã nguồn mở. Các công cụ và thư viện như Python, scikit-learn, pandas, numpy và matplotlib đã là những công cụ đắc lực giúp em thực hiện phân tích một cách hiệu quả. Các tác giả của các bài báo khoa học được trích dẫn đã cung cấp nền tảng lý thuyết vững chắc cho báo cáo này.
+
+\newpage
+
+% Resume
+\chapter*{TÓM TẮT}
+\addcontentsline{toc}{chapter}{Tóm tắt}
+
+Báo cáo này trình bày một nghiên cứu toàn diện về phân tích và phân cụm khách hàng thẻ tín dụng. Sử dụng bộ dữ liệu gồm 8,950 khách hàng với 17 biến tài chính, nghiên cứu áp dụng các kỹ thuật khai phá dữ liệu tiên tiến bao gồm:
+
+\begin{itemize}
+    \item Xử lý dữ liệu và phân tích khám phá (EDA)
+    \item Giảm chiều dữ liệu sử dụng PCA
+    \item Phân tích phân cụm K-means với xác định K tối ưu
+    \item So sánh với các phương pháp phân cụm khác (Hierarchical, DBSCAN)
+    \item Phát hiện và phân tích các điểm dị biệt
+    \item Đưa ra các khuyến nghị cho chiến lược tiếp thị
+\end{itemize}
+
+Kết quả phân tích đã xác định được 4 phân khúc khách hàng chính, mỗi phân khúc có các đặc trưng riêng biệt về hành vi chi tiêu, giới hạn tín dụng, dư nợ và tần suất sử dụng.
+
+\textbf{Từ khóa:} Phân cụm, K-means, Khách hàng thẻ tín dụng, Khai phá dữ liệu, Machine Learning
+
+\newpage
+
+\input{chapters/chapter1_introduction}
+\input{chapters/chapter2_literature_review}
+\input{chapters/chapter3_methodology}
+\input{chapters/chapter4_data_preprocessing}
+\input{chapters/chapter5_eda}
+\input{chapters/chapter6_clustering_analysis}
+\input{chapters/chapter7_business_insights}
+\input{chapters/chapter8_conclusions}
+
+\appendix
+\input{chapters/appendix_code}
+\input{chapters/appendix_tables}
+
+\newpage
+\addcontentsline{toc}{chapter}{Tài liệu tham khảo}
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

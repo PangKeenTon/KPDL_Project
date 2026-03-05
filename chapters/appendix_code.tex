@@ -1,0 +1,260 @@
+\appendix
+\chapter{MÃ NGUỒN PYTHON}
+
+\section{Mã đầy đủ cho phân tích}
+
+Mã Python đầy đủ dưới đây được sử dụng trong báo cáo:
+
+\lstset{language=Python}
+
+\subsection{Nhập thư viện}
+
+\begin{lstlisting}
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+from sklearn.metrics import silhouette_score
+from scipy.cluster.hierarchy import dendrogram, linkage
+from sklearn.cluster import DBSCAN
+\end{lstlisting}
+
+\subsection{Bước 1: Tải và xử lý dữ liệu}
+
+\begin{lstlisting}
+# Load data
+df = pd.read_csv('CC GENERAL.csv')
+
+# Check missing values
+print(df.isnull().sum())
+
+# Fill missing values with median
+df['MINIMUM_PAYMENTS'] = df['MINIMUM_PAYMENTS'].fillna(
+    df['MINIMUM_PAYMENTS'].median()
+)
+df['CREDIT_LIMIT'] = df['CREDIT_LIMIT'].fillna(
+    df['CREDIT_LIMIT'].median()
+)
+
+# Drop ID column
+X_raw = df.drop('CUST_ID', axis=1)
+
+print(f"Data cleaned! Shape: {X_raw.shape}")
+\end{lstlisting}
+
+\subsection{Bước 2: Biến đổi và chuẩn hóa}
+
+\begin{lstlisting}
+# Log transformation
+X_log = np.log(1 + X_raw)
+
+# Standardization
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_log)
+
+print("Log-transformed and standardized!")
+\end{lstlisting}
+
+\subsection{Bước 3: PCA}
+
+\begin{lstlisting}
+# PCA 2D
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled)
+
+pca_df = pd.DataFrame(
+    data=X_pca, 
+    columns=['PC1', 'PC2']
+)
+
+print(f"Variance explained: {pca.explained_variance_ratio_.sum():.2\%}")
+\end{lstlisting}
+
+\subsection{Bước 4: Tìm K tối ưu}
+
+\begin{lstlisting}
+# Elbow Method + Silhouette
+inertias = []
+sil_scores = []
+K_range = range(2, 11)
+
+for k in K_range:
+    km = KMeans(n_clusters=k, random_state=42, n_init=10)
+    labels = km.fit_predict(X_pca)
+    inertias.append(km.inertia_)
+    sil_scores.append(silhouette_score(X_pca, labels))
+
+# Plot graphs
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
+
+ax1.plot(K_range, inertias, marker='o', color='blue', linewidth=2)
+ax1.set_title('Elbow Method')
+ax1.set_xlabel('K')
+ax1.set_ylabel('Inertia')
+
+ax2.plot(K_range, sil_scores, marker='s', color='red', linewidth=2)
+ax2.set_title('Silhouette Score')
+ax2.set_xlabel('K')
+ax2.set_ylabel('Score')
+
+plt.tight_layout()
+plt.savefig('elbow_silhouette.png', dpi=300, bbox_inches='tight')
+plt.show()
+\end{lstlisting}
+
+\subsection{Bước 5: K-means với K=4}
+
+\begin{lstlisting}
+# K-means clustering
+optimal_k = 4
+kmeans = KMeans(n_clusters=optimal_k, random_state=42, n_init=10)
+df['Cluster'] = kmeans.fit_predict(X_pca)
+pca_df['Cluster'] = df['Cluster']
+
+# Plot results
+plt.figure(figsize=(12, 8))
+sns.scatterplot(
+    x='PC1', y='PC2', 
+    hue='Cluster', 
+    data=pca_df, 
+    palette='Set1', 
+    s=50, alpha=0.6, edgecolor='w'
+)
+
+# Plot centroids
+centroids_pca = kmeans.cluster_centers_
+plt.scatter(
+    centroids_pca[:, 0], centroids_pca[:, 1], 
+    s=300, c='black', marker='X', label='Centroids'
+)
+
+plt.title(f'K-means Clustering (K={optimal_k})', fontsize=16)
+plt.legend()
+plt.savefig('clustering_result.png', dpi=300, bbox_inches='tight')
+plt.show()
+\end{lstlisting}
+
+\subsection{Bước 6: Phân tích cụm}
+
+\begin{lstlisting}
+# Descriptive statistics for each cluster
+key_features = [
+    'BALANCE', 'PURCHASES', 'CASH_ADVANCE', 
+    'CREDIT_LIMIT', 'PAYMENTS', 'PURCHASES_FREQUENCY'
+]
+
+cluster_summary = df.groupby('Cluster')[key_features].mean()
+
+print("Cluster Summary:")
+print(cluster_summary.round(2))
+
+# Plot comparison bar chart
+cluster_summary.plot(kind='bar', figsize=(15, 8), colormap='viridis')
+plt.title('Cluster Comparison', fontsize=16)
+plt.xlabel('Cluster')
+plt.ylabel('Mean Value (normalized)')
+plt.legend(title='Features', bbox_to_anchor=(1.05, 1))
+plt.tight_layout()
+plt.savefig('cluster_comparison.png', dpi=300, bbox_inches='tight')
+plt.show()
+\end{lstlisting}
+
+\subsection{Bước 7: Phát hiện dị biệt}
+
+\begin{lstlisting}
+# DBSCAN
+dbscan = DBSCAN(eps=0.5, min_samples=10)
+dbscan_labels = dbscan.fit_predict(X_pca)
+
+df['Is_Outlier'] = (dbscan_labels == -1)
+n_outliers = df['Is_Outlier'].sum()
+
+print(f"Number of outliers: {n_outliers}")
+
+# Plot outliers
+plt.figure(figsize=(12, 8))
+plt.scatter(
+    X_pca[dbscan_labels != -1, 0], 
+    X_pca[dbscan_labels != -1, 1], 
+    c='lightgrey', s=10, label='Normal'
+)
+plt.scatter(
+    X_pca[dbscan_labels == -1, 0], 
+    X_pca[dbscan_labels == -1, 1], 
+    c='red', s=30, label='Outliers'
+)
+plt.title('Anomaly Detection (DBSCAN)', fontsize=15)
+plt.legend()
+plt.savefig('outliers.png', dpi=300, bbox_inches='tight')
+plt.show()
+\end{lstlisting}
+
+\subsection{Bước 8: Lưu kết quả}
+
+\begin{lstlisting}
+# Save clustering results
+df.to_csv('Credit_Card_Clustered_Results.csv', index=False)
+
+# Save cluster centers
+cluster_centers = pd.DataFrame(
+    kmeans.cluster_centers_, 
+    columns=[f'PC{i+1}' for i in range(optimal_k)]
+)
+cluster_centers.to_csv('cluster_centers.csv', index=False)
+
+print("Results saved!")
+\end{lstlisting}
+
+\section{Yêu cầu môi trường}
+
+\subsection{Python Version}
+Python 3.7+ được khuyến khích.
+
+\subsection{Thư viện cần thiết}
+
+\begin{lstlisting}
+pandas>=1.0.0
+numpy>=1.18.0
+scikit-learn>=0.23.0
+matplotlib>=3.2.0
+seaborn>=0.11.0
+scipy>=1.5.0
+\end{lstlisting}
+
+Cài đặt bằng:
+\begin{lstlisting}
+pip install pandas numpy scikit-learn matplotlib seaborn scipy
+\end{lstlisting}
+
+\section{Hướng dẫn chạy}
+
+\begin{enumerate}
+    \item Đặt file \texttt{CC GENERAL.csv} cùng thư mục với script
+    \item Chạy từng cell hoặc chạy toàn bộ file
+    \item Kết quả (biểu đồ, file CSV) sẽ được lưu trong cùng thư mục
+    \item Thời gian chạy: ~30-60 giây trên máy bình thường
+\end{enumerate}
+
+\section{Tham khảo mã để tùy chỉnh}
+
+\subsection{Thay đổi số cụm}
+
+Để thử K khác, sửa:
+\begin{lstlisting}
+optimal_k = 5  # Change to desired K
+\end{lstlisting}
+
+\subsection{Thay đổi tham số DBSCAN}
+
+\begin{lstlisting}
+dbscan = DBSCAN(eps=0.6, min_samples=20)  # Increase eps for fewer outliers
+\end{lstlisting}
+
+\subsection{Thay đổi số thành phần PCA}
+
+\begin{lstlisting}
+pca = PCA(n_components=3)  # 3D visualization
+\end{lstlisting}

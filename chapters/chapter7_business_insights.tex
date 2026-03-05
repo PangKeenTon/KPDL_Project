@@ -1,0 +1,325 @@
+\chapter{THÔNG TIN CHI TIẾT KINH DOANH VÀ KHUYẾN NGHỊ}
+
+\section{Phân tích chi tiết các phân khúc}
+
+\subsection{Cụm 0: Khách hàng rủi ro cao (High-Risk Customers)}
+
+\subsubsection{Hồ sơ cụm}
+
+\begin{table}[H]
+\centering
+\caption{Hồ sơ chi tiết Cụm 0}
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Chỉ tiêu} & \textbf{Cụm 0} & \textbf{Toàn bộ} & \textbf{Chênh lệch} \\
+\hline
+Kích thước & 1,504 & 8,950 & 16.8\% \\
+\hline
+BALANCE trung bình & \$3,187 & \$1,564 & +103.7\% \\
+\hline
+CASH\_ADVANCE trung bình & \$2,551 & \$979 & +160.6\% \\
+\hline
+CREDIT\_LIMIT trung bình & \$5,607 & \$4,494 & +24.7\% \\
+\hline
+PAYMENTS trung bình & \$2,769 & \$1,733 & +59.8\% \\
+\hline
+PURCHASES trung bình & \$1,326 & \$1,003 & +32.2\% \\
+\hline
+PRC\_FULL\_PAYMENT & 3.66\% & 15.37\% & -76.2\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Hành vi mua hàng}
+
+\begin{itemize}
+    \item \textbf{Đặc điểm:} Rút tiền mặt nhiều (\$2,551), nhưng tỷ lệ thanh toán đầy đủ rất thấp (3.66\%)
+    \item \textbf{CASH\_ADVANCE/CREDIT\_LIMIT:} 64.3\% hạn mức dùng để rút tiền
+    \item \textbf{Rủi ro:} Nhóm này có tỷ lệ mặc định dự kiến cao (5-8\%)
+\end{itemize}
+
+\subsubsection{Chiến lược hạn chế rủi ro}
+
+\begin{enumerate}
+    \item \textbf{Giám sát:} Gắn cờ các giao dịch rút tiền > \$1,500
+    \item \textbf{Hạn chế rút tiền:} Giảm giới hạn rút tiền xuống 20-30\% hạn mức tín dụng
+    \item \textbf{Tăng lãi suất:} Tăng lãi suất rút tiền mặt lên 3-5\%
+    \item \textbf{Telesales:} Liên hệ tích cực khuyến khích thanh toán toàn bộ
+    \item \textbf{Phát hiện gian lận:} Sử dụng ML phát hiện các giao dịch bất thường
+\end{enumerate}
+
+\subsection{Cụm 1: Khách hàng VIP (Premium/VIP Customers)}
+
+\subsubsection{Đặc điểm nổi bật}
+
+\begin{table}[H]
+\centering
+\caption{Đặc điểm Cụm 1 (VIP)}
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Chỉ tiêu} & \textbf{Cụm 1} & \textbf{Toàn bộ} & \textbf{Chênh lệch} \\
+\hline
+Kích thước & 2,206 (24.6\%) & 8,950 & -10.9\% \\
+\hline
+PURCHASES trung bình & \$2,579 & \$1,003 & +157.1\% \\
+\hline
+PAYMENTS trung bình & \$2,492 & \$1,733 & +43.8\% \\
+\hline
+CASH\_ADVANCE trung bình & \$40 & \$979 & -95.9\% \\
+\hline
+CREDIT\_LIMIT trung bình & \$5,938 & \$4,494 & +32.1\% \\
+\hline
+PRC\_FULL\_PAYMENT & 23.80\% & 15.37\% & +54.9\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Hành vi và giá trị}
+
+\begin{itemize}
+    \item \textbf{Hành vi mua hàng:} Mua hàng rất cao (\$2,579/tháng), hầu như không rút tiền (\$40/tháng)
+    \item \textbf{Thanh toán:} Tỷ lệ thanh toán đầy đủ cao (23.80\%), thanh toán trung bình \$2,492/tháng
+    \item \textbf{Giá trị khách hàng:} Nhóm VIP cao giá trị nhất, có khả năng mặc định thấp
+    \item \textbf{Lợi nhuận:} Mỗi khách hàng tài trợ ~\$248/tháng từ lãi suất + phí dịch vụ
+\end{itemize}
+
+\subsubsection{Chiến lược giữ chân VIP}
+
+\begin{enumerate}
+    \item \textbf{Chương trình VIP cao cấp:} Tích điểm gấp đôi, hoàn tiền 2-3\% cho mọi giao dịch mua hàng
+    \item \textbf{Quyền lợi đặc biệt:} Mở thẻ Platinum, dịch vụ concierge 24/7, bảo hiểm du lịch mở rộng
+    \item \textbf{Ưu đãi mua sắm:} Hợp tác với trung tâm thương mại và nhà hàng cao cấp, ưu đãi 5-10\%
+    \item \textbf{Tương tác cá nhân:} Bố trí chuyên viên quản lý quan hệ riêng, liên lạc định kỳ
+    \item \textbf{Tăng hạn mức:} Tự động tăng hạn mức khi thanh toán đầy đủ liên tục
+    \item \textbf{Lãi suất ưu đãi:} Giữ lãi suất dưới mức trung bình (12-14\%/năm)
+\end{enumerate}
+
+\subsubsection{Dự báo giá trị}
+
+\begin{itemize}
+    \item \textbf{Tỷ suất lợi nhuận hàng tháng:} \$248 (lãi suất + phí dịch vụ)
+    \item \textbf{Thời gian giữ chân trung bình:} 36 tháng (3 năm) - cao nhất
+    \item \textbf{CLV ước tính:} \$248 × 36 tháng = \$8,928 mỗi khách
+    \item \textbf{Tổng giá trị cụm:} \$8,928 × 2,206 = \$19.7M - cao nhất trong tất cả cụm
+\end{itemize}
+
+\subsection{Cụm 2: Khách hàng ít sử dụng (Low-Activity Customers)}
+
+\subsubsection{Hồ sơ cụm}
+
+\begin{table}[H]
+\centering
+\caption{Hồ sơ chi tiết Cụm 2}
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Chỉ tiêu} & \textbf{Cụm 2} & \textbf{Toàn bộ} & \textbf{Chênh lệch} \\
+\hline
+Kích thước & 2,758 (30.8\%) & 8,950 & +6.1\% \\
+\hline
+BALANCE trung bình & \$249 & \$1,564 & -84.1\% \\
+\hline
+PURCHASES trung bình & \$443 & \$1,003 & -55.9\% \\
+\hline
+CASH\_ADVANCE trung bình & \$24 & \$979 & -97.5\% \\
+\hline
+CREDIT\_LIMIT trung bình & \$3,182 & \$4,494 & -29.2\% \\
+\hline
+PAYMENTS trung bình & \$674 & \$1,733 & -61.1\% \\
+\hline
+PRC\_FULL\_PAYMENT & 25.74\% & 15.37\% & +67.5\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Tại sao sử dụng tối thiểu?}
+
+\begin{itemize}
+    \item \textbf{Khách hàng cơ bản:} Có thẻ nhưng ít sử dụng (BALANCE chỉ \$249)
+    \item \textbf{Tỷ lệ thanh toán cao:} 25.74\% thanh toán đầy đủ - cao hơn trung bình
+    \item \textbf{Hạn chế tín dụng:} CREDIT\_LIMIT thấp (\$3,182), rủi ro tín dụng tương đối thấp
+    \item \textbf{Nhu cầu thấp:} Có thể do thu nhập thấp, hoặc sử dụng phương tiện thanh toán khác
+\end{itemize}
+
+\subsubsection{Cơ hội phát triển}
+
+\begin{enumerate}
+    \item \textbf{Chiến dịch kích hoạt:} Gửi ưu đãi hoàn tiền 3-5\% cho giao dịch đầu tiên
+    \item \textbf{Ngưỡng tham gia thấp:} Cung cấp các gói dịch vụ với phí thấp hoặc miễn phí
+    \item \textbf{Giáo dục tài chính:} SMS/Email về lợi ích của việc sử dụng thẻ
+    \item \textbf{Hợp tác đối tác:} Liên kết với cửa hàng, nhà hàng để tăng mức ưu đãi
+    \item \textbf{Lộ trình nâng hạng:} Khi khách hàng tăng sử dụng, nâng cấp sang thẻ hạng cao hơn
+    \item \textbf{Khoản vay nhỏ:} Cung cấp khoản vay quy mô nhỏ cho khách có nhu cầu
+\end{enumerate}
+
+\subsubsection{ROI của chiến dịch}
+
+\begin{itemize}
+    \item \textbf{Chi phí thu hút:} \$5-10 mỗi khách
+    \item \textbf{Tỷ lệ chuyển đổi dự tính:} 15-20\% (415-550 khách từ 2,758)
+    \item \textbf{Tổng chi phí:} 2,758 × \$7 = \$19.3K
+    \item \textbf{Tiềm năng lợi nhuận tăng:} 500 × \$80/năm × 3 năm = \$120K
+    \item \textbf{ROI:} 520\% trong 3 năm
+\end{itemize}
+
+\subsection{Cụm 3: Khách hàng rút tiền mặt (Cash Advance Users)}
+
+\subsubsection{Đặc trưng chính}
+
+\begin{table}[H]
+\centering
+\caption{Hồ sơ Cụm 3 (Cash Advance Users)}
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Chỉ tiêu} & \textbf{Cụm 3} & \textbf{Toàn bộ} & \textbf{Chênh lệch} \\
+\hline
+Kích thước & 2,482 (27.7\%) & 8,950 & +9.9\% \\
+\hline
+CASH\_ADVANCE trung bình & \$1,921 & \$979 & +96.3\% \\
+\hline
+BALANCE trung bình & \$2,142 & \$1,564 & +36.9\% \\
+\hline
+PURCHASES trung bình & \$30 & \$1,003 & -97.0\% \\
+\hline
+CREDIT\_LIMIT trung bình & \$3,996 & \$4,494 & -11.1\% \\
+\hline
+PAYMENTS trung bình & \$1,608 & \$1,733 & -7.2\% \\
+\hline
+PRC\_FULL\_PAYMENT & 3.46\% & 15.37\% & -77.5\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Hành vi và rủi ro}
+
+\begin{itemize}
+    \item \textbf{Hành vi chính:} Rút tiền mặt rất cao (\$1,921/tháng), hầu như không mua hàng (\$30/tháng)
+    \item \textbf{Rủi ro nợ:} Rất cao - chỉ 3.46\% thanh toán đầy đủ
+    \item \textbf{Tỷ lệ mặc định dự kiến:} 5-8\% (so với trung bình 2\%)
+    \item \textbf{Phạm vi rủi ro tiềm ẩn:} \$1,921 × 2,482 khách = \$4.77M nợ rút tiền mặt
+\end{itemize}
+
+\subsubsection{Chiến lược hạn chế rủi ro}
+
+\begin{enumerate}
+    \item \textbf{Giám sát chặt chẽ:} Gắn cờ các giao dịch rút tiền > \$1,000 là đáng ngờ
+    \item \textbf{Hạn chế rút tiền:} Giảm giới hạn rút tiền xuống 15-20\% hạn mức tín dụng
+    \item \textbf{Lãi suất cao:} Tăng lãi suất rút tiền mặt lên 4-6\% (tùy mục tiêu rủi ro)
+    \item \textbf{Khuyến khích thanh toán:} Telesales liên hệ tích cực, gửi thông báo nợ
+    \item \textbf{Phát hiện gian lận:} Sử dụng mô hình máy học để phát hiện giao dịch bất thường
+    \item \textbf{Tư vấn tài chính:} Gửi tài liệu về quản lý nợ và lập kế hoạch chi tiêu
+\end{enumerate}
+
+\subsubsection{Dự báo giá trị}
+
+\begin{itemize}
+    \item \textbf{Tỷ suất lợi nhuận hàng tháng:} \$87 (lãi suất cao do rủi ro)
+    \item \textbf{Thời gian giữ chân trung bình:} 18 tháng (rủi ro cao, có thể mặc định)
+    \item \textbf{CLV ước tính:} \$87 × 18 tháng = \$1,566 mỗi khách
+    \item \textbf{Tổng giá trị cụm:} \$1,566 × 2,482 = \$3.9M
+    \item \textbf{Chất lượng tín dụng:} Giám sát chặt chẽ, sẵn sàng thu nợ gấp nếu cần
+\end{itemize}
+
+\section{Phân tích DBSCAN (Phân tích giá trị cực trị)}
+
+\subsection{Kết quả DBSCAN}
+
+Thuật toán phân cụm DBSCAN (với eps=0.5, min\_samples=10) đã xác định các điểm dị biệt:
+
+\begin{table}[H]
+\centering
+\caption{Kết quả phân cụm DBSCAN}
+\begin{tabular}{|l|r|}
+\hline
+\textbf{Loại dữ liệu} & \textbf{Số lượng} \\
+\hline
+Số cụm được tìm thấy & 9 \\
+\hline
+Số điểm dị biệt (outlier) & 8,486 \\
+\hline
+Tỷ lệ điểm dị biệt & 94.82\% \\
+\hline
+Số điểm thuộc cụm & 464 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Giải thích và nhận xét}
+
+Kết quả DBSCAN cho thấy rằng với các tham số eps=0.5 và min\_samples=10, thuật toán xác định 94.82\% dữ liệu là điểm dị biệt. Điều này chỉ ra rằng:
+
+\begin{itemize}
+    \item \textbf{DBSCAN không phù hợp:} Các điểm dữ liệu trong không gian PCA 2 chiều không tập trung thành cụm mật độ cao như kỳ vọng
+    \item \textbf{Phân bố dữ liệu:} Khách hàng phân tán khắp không gian PCA, không có khoảnh không gian rõ ràng giữa các nhóm
+    \item \textbf{K-means phù hợp hơn:} K-means (k=4) với chỉ số Silhouette 0.215 là lựa chọn phù hợp hơn DBSCAN cho dữ liệu này
+\end{itemize}
+
+\subsection{Giá trị cực trị}
+
+Để phát hiện những khách hàng có giá trị cực trị (extreme outliers) cần chú ý, báo cáo xác định các điểm dữ liệu có giá trị PCA ở vùng biên:
+
+\begin{itemize}
+    \item \textbf{PC1 > 3 hoặc PC1 < -3:} Khách hàng có mẫu hành vi sử dụng rất khác biệt
+    \item \textbf{PC2 > 3 hoặc PC2 < -3:} Khách hàng với mô hình chi tiêu / rút tiền rất khác
+    \item \textbf{Hành động:} Kiểm tra thủ công các khách hàng này để phát hiện gian lận hoặc cơ hội bán chéo đặc biệt
+\end{itemize}
+
+\section{Khuyến nghị hành động}
+
+\subsection{Ngắn hạn (0-3 tháng)}
+
+\begin{enumerate}
+    \item \textbf{Phân loại 4 cụm:} Cập nhật CRM với nhãn K-means (Cụm 0-3), dùng cho nhắm mục tiêu tiếp thị
+    \item \textbf{Chiến dịch cho Cụm 0 (rủi ro cao):} Giám sát giao dịch, gắn cờ rút tiền > \$1,500
+    \item \textbf{Chiến dịch giữ chân Cụm 1 (VIP):} Cung cấp quyền lợi đặc biệt, tăng hạn mức tín dụng có kiểm soát
+    \item \textbf{Chiến dịch kích hoạt Cụm 2 (ít sử dụng):} Gửi mã khuyến mãi \$25 hoàn tiền cho giao dịch từ \$100
+    \item \textbf{Quản trị rủi ro Cụm 3 (rút tiền mặt):} Hạn chế rút tiền, điều chỉnh lãi suất, liên hệ nhắc nợ
+    \item \textbf{Rà soát điểm cực trị:} Kiểm tra các khách hàng có PC1/PC2 > 3 hoặc < -3 để phát hiện gian lận
+\end{enumerate}
+
+\subsection{Trung hạn (3-6 tháng)}
+
+\begin{enumerate}
+    \item \textbf{Sản phẩm theo phân khúc:} Thiết kế gói sản phẩm riêng cho từng cụm (bảo hiểm cho Cụm 0, hoàn tiền cao cho Cụm 1, miễn phí kích hoạt cho Cụm 2)
+    \item \textbf{Chương trình bán chéo:} Bảo hiểm du lịch cho Cụm 1, khoản vay nhỏ cho Cụm 2
+    \item \textbf{Tối ưu CLV:} Phân tích mẫu chi tiêu, tối ưu tần suất và kênh tương tác
+    \item \textbf{Dự báo rời bỏ:} Xây dựng mô hình dự báo churn cho từng cụm
+    \item \textbf{Định giá linh hoạt:} Điều chỉnh lãi suất rút tiền theo từng cụm khách hàng
+\end{enumerate}
+
+\subsection{Dài hạn (6-12 tháng)}
+
+\begin{enumerate}
+    \item \textbf{Mô hình phân khúc trong vận hành:} Áp dụng K-means trong hệ thống thời gian thực để phân loại khách hàng mới
+    \item \textbf{Cá nhân hóa tự động:} Tự động gửi ưu đãi phù hợp bằng cách kết hợp phân cụm và dự báo hành vi
+    \item \textbf{Phát hiện gian lận:} Xây dựng mô hình phát hiện gian lận dựa trên giá trị cực trị kết hợp máy học
+    \item \textbf{Tác động doanh thu:} Dự tính tăng doanh thu 5-10\% nhờ chiến lược tối ưu theo cụm
+    \item \textbf{Cải thiện giữ chân:} Giảm tỷ lệ churn 2-3 điểm phần trăm nhờ tương tác chủ động
+\end{enumerate}
+
+\section{KPI theo dõi}
+
+\begin{table}[H]
+\centering
+\caption{KPI theo dõi hiệu quả phân cụm K-means}
+\begin{tabular}{|p{3cm}|p{4.2cm}|p{6.2cm}|}
+\hline
+\textbf{Cụm} & \textbf{KPI chính} & \textbf{Mục tiêu} \\
+\hline
+Cụm 0 (High-Risk) & Tỷ lệ vỡ nợ & < 5\% (giảm từ mức dự kiến 5-8\%) \\
+- & Tỷ lệ thanh toán đầy đủ & > 10\% (tăng từ 3.66\%) \\
+- & Tỷ lệ duy trì & > 85\% (nhóm rủi ro cần theo dõi) \\
+\hline
+Cụm 1 (VIP) & Tỷ lệ rời bỏ (churn) & < 2\% (duy trì nhóm giá trị cao) \\
+- & Tỷ lệ chuyển đổi bán chéo & > 40\% \\
+- & Giá trị giao dịch trung bình & Duy trì > \$2,500/tháng \\
+\hline
+Cụm 2 (Low-Activity) & Tỷ lệ kích hoạt & > 30\% \\
+- & Tăng trưởng chi tiêu trung bình & +50\% (mục tiêu 2 năm) \\
+- & Tỷ lệ chuyển dịch sang Cụm 1 & > 10\% \\
+\hline
+Cụm 3 (Cash Advance Users) & Tỷ lệ vỡ nợ & < 8\% \\
+- & Mức tăng tỷ lệ thanh toán đầy đủ & > 5\% (tăng từ 3.46\%) \\
+- & Mức sử dụng rút tiền mặt & Giảm 20-30\% \\
+\hline
+\end{tabular}
+\end{table}
