@@ -69,22 +69,58 @@
 \onehalfspacing
 
 % Title page
-% Title page
-\begin{center}
-\vspace*{1.5cm}
-\includegraphics[width=5cm]{logotruong.png}
-\vspace*{0.8cm}
-\end{center}
-
-\title{\textbf{PHÂN TÍCH VÀ PHÂN CỤM KHÁCH HÀNG THẺ TÍN DỤNG} \\[0.5cm]
-
-\normalsize Báo Cáo Môn Học: Khai Phá Dữ Liệu 1‐2‐25(N01)}
-\author{}
-\date{\today}
 
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+\thispagestyle{empty}
+
+% Blue border frame - drawn as overlay
+\begin{tikzpicture}[remember picture, overlay]
+  % Outer border (thicker)
+  \draw[line width=3pt, blue!80!black] 
+    ([shift={(1.5cm,-1.5cm)}]current page.north west) 
+    rectangle 
+    ([shift={(-1.5cm,1.5cm)}]current page.south east);
+  % Inner border (thinner)
+  \draw[line width=1pt, blue!80!black] 
+    ([shift={(1.8cm,-1.8cm)}]current page.north west) 
+    rectangle 
+    ([shift={(-1.8cm,1.8cm)}]current page.south east);
+\end{tikzpicture}
+
+\begin{center}
+
+% University name at top
+\textbf{\Large ĐẠI HỌC PHENIKAA}\\[0.3cm]
+\textbf{\Large TRƯỜNG CÔNG NGHỆ THÔNG TIN}\\[0.3cm]
+\rule{8cm}{0.5pt}\\[1.5cm]
+
+% Logo
+\includegraphics[width=5cm]{logotruong.png}\\[1.2cm]
+
+% Report title
+\textbf{\Large BÁO CÁO BÀI TẬP LỚN}\\[0.4cm]
+\textbf{\large HỌC PHẦN: KHAI PHÁ DỮ LIỆU}\\[0.3cm]
+\textbf{(Mã HP: CSE702022-1-2-25)}\\[1.2cm]
+
+% Topic title
+\textbf{\large TÊN ĐỀ TÀI:}\\[0.4cm]
+\textbf{\Large ``Phân tích và phân cụm khách hàng thẻ tín dụng''}\\[2cm]
+
+% Student information
+\begin{flushleft}
+\hspace{4cm}Thông tin sinh viên: \textbf{Nguyễn Đức Mạnh - 23010902}\\[0.4cm]
+\hspace{4cm}Giảng viên hướng dẫn: \textbf{TS. Trịnh Thành}
+\end{flushleft}
+
+\vfill
+
+\textbf{Hà Nội, Năm 2026}
+
+\end{center}
+
+\end{titlepage}
 
 % Trang nhận xét
 \thispagestyle{empty}

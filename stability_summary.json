@@ -1,0 +1,30 @@
+{
+  "runs": 30,
+  "silhouette_mean": 0.2154145794078294,
+  "silhouette_std": 0.0006496142344879251,
+  "silhouette_min": 0.2150289671587843,
+  "silhouette_max": 0.21873571739497324,
+  "dbi_mean": 1.6419375562113616,
+  "dbi_std": 0.002911553330277015,
+  "dbi_min": 1.636353560666624,
+  "dbi_max": 1.655119926106533,
+  "chi_mean": 2334.5232671270273,
+  "chi_std": 1.4988403511279371,
+  "chi_min": 2326.5906169964937,
+  "chi_max": 2334.824402270807,
+  "inertia_mean": 85339.95932227689,
+  "inertia_std": 24.085887212561225,
+  "iter_mean": 19.5,
+  "iter_min": 11,
+  "iter_max": 34,
+  "ari_pairwise_mean": 0.9695213655788267,
+  "ari_pairwise_std": 0.08267050839565492,
+  "ari_pairwise_min": 0.6581119986459448,
+  "ari_pairwise_max": 1.0,
+  "sizes_example_seed0": [
+    1531,
+    1821,
+    2398,
+    3200
+  ]
+}

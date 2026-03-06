@@ -1,0 +1,36 @@
+VERIFICATION CHECKLIST: Report vs Actual Data
+================================================
+
+ACTUAL DATA FROM CSV:
+Cluster 0: 1,590 (17.8%) - BALANCE=$3,286, PURCHASES=$1,298, CREDIT_LIMIT=$5,895, PAYMENTS=$2,812, PRC_FULL=3.45%
+Cluster 1: 2,418 (27.0%) - BALANCE=$2,155, PURCHASES=$30, CASH_ADV=$1,983, CREDIT_LIMIT=$3,986, PRC_FULL=3.19%
+Cluster 2: 2,609 (29.2%) - BALANCE=$242, PURCHASES=$393, CREDIT_LIMIT=$3,122, PRC_FULL=24.01%
+Cluster 3: 2,333 (26.1%) - BALANCE=$1,258, PURCHASES=$2,494, CREDIT_LIMIT=$5,601, PAYMENTS=$2,359, PRC_FULL=26.46%
+Outliers: 40 (0.45%)
+
+REPORT ISSUES FOUND:
+
+Chapter 6:
+- [FIXED] PCA variance: 32.6%/23.8%/56.46% ✓
+- [FIXED] Cluster sizes: 1,590/2,418/2,609/2,333 ✓ 
+- [FIXED] Outliers: 40 (0.45%) ✓
+
+Chapter 7 - Cụm 1:
+- Reports "chỉ thanh toán 10% đầy đủ" but actual is 3.19% ❌
+- This is inconsistent with Cluster 2 (24.01%) and Cluster 3 (26.46%)
+- The 10% seems to be placeholder, should be 3.19%
+
+Chapter 7 - Business strategies:
+- Need to verify all CLV, campaign ROI calculations match the metrics
+- Check if campaign costs and conversion rates are realistic
+
+Appendix Tables:
+- Need to verify all 27 cluster profiling metrics across 4 clusters
+- Check PRC_FULL_PAYMENT values match: 3.45%, 3.19%, 24.01%, 26.46%
+
+ToDo:
+1. Fix Chapter 7 Cluster 1 PRC_FULL_PAYMENT: 10% → 3.19%
+2. Check all other numbers in Chapter 7
+3. Verify appendix table metrics against actual data
+4. Verify all business calculation logic
+
